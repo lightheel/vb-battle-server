@@ -77,9 +77,13 @@ public class CombatController {
             }
         }
         if (digi1.getCurrentHp() > digi2.getCurrentHp()){
+            digi1.setCurrentHp(3700);
+            digi2.setCurrentHp(3000);
             return digi1;
         }
         else {
+            digi1.setCurrentHp(3700);
+            digi2.setCurrentHp(3000);
             return digi2;
         }
     }
