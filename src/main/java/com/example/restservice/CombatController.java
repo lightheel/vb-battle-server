@@ -14,34 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CombatController {
     Random rand = new Random();
-
-    //Stages
-    // 0 Rookie
-    // 1 Champion
-    // 2 Ultimate
-    // 3 Mega
-
-    //Attributes
-    // 0 None
-    // 1 Virus
-    // 2 Data
-    // 3 Vaccine
-    // 4 Free
-
-    //Digimon server-side stat references.
-    //Rookie
-    private final Character agumon = new Character("Agumon",0,3,3200, 3200, 3900,1050);
-    private final Character pulsemon = new Character("Pulsemon",0,3,2700, 2700, 4800,1000);
-    //Champion
-    private final Character betelGammamon = new Character("Betel Gammamon",1,3,3600, 3600, 5200,1200);
-    private final Character greymon = new Character("Greymon",1,3,3500, 3500, 5100,1300);
-    //Ultimate
-    private final Character doruguremon = new Character("Doruguremon",2,2,5000, 5000, 6400,1400);
-    private final Character metalGreymon = new Character("Metal Greymon",2,1,5100, 5100, 5400,1500);
-    //Mega
-    private final Character machinedramon = new Character("Machinedramon",3,1,5450, 5450, 4800,1850);
-    private final Character dorugoramon = new Character("Dorugoramon",3,2,5900, 5900, 6100,1950);
-
     boolean round1 = false;
     boolean round2 = false;
     boolean round3 = false;
@@ -111,20 +83,20 @@ public class CombatController {
 
         switch (stage){
             case 0:
-                characterArray.add(agumon);
-                characterArray.add(pulsemon);
+                characterArray.add(RookieStats.agumon);
+                characterArray.add(RookieStats.pulsemon);
                 return characterArray;
             case 1:
-                characterArray.add(greymon);
-                characterArray.add(betelGammamon);
+                characterArray.add(ChampionStats.greymon);
+                characterArray.add(ChampionStats.betelGammamon);
                 return characterArray;
             case 2:
-                characterArray.add(metalGreymon);
-                characterArray.add(doruguremon);
+                characterArray.add(UltimateStats.doruguremon);
+                characterArray.add(UltimateStats.metalGreymon);
                 return characterArray;
             case 3:
-                characterArray.add(machinedramon);
-                characterArray.add(dorugoramon);
+                characterArray.add(MegaStats.machinedramon);
+                characterArray.add(MegaStats.dorugoramon);
                 return characterArray;
             default:
                 return characterArray;
