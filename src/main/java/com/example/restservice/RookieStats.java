@@ -2,6 +2,8 @@ package com.example.restservice;
 
 import com.example.vb_battle_server.Character;
 
+import java.util.ArrayList;
+
 public class RookieStats {
 
     //Stages
@@ -60,4 +62,5 @@ public class RookieStats {
     static public final Character wormmon = new Character("Wormmon",0,4,3000, 3000, 3900,1200);
     static public final Character ukkomon = new Character("Ukkomon",0,4,3250, 3250, 5150,1000);
     static public final Character betamon = new Character("Betamon",0,1,3000, 3000, 3900,900);
+    static public ArrayList<Character> rookieArray = new ArrayList<Character>();
 }
