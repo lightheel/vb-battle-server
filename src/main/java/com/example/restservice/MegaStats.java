@@ -2,6 +2,8 @@ package com.example.restservice;
 
 import com.example.vb_battle_server.Character;
 
+import java.util.ArrayList;
+
 public class MegaStats {
 
     //Stages
@@ -97,4 +99,5 @@ public class MegaStats {
     static public final Character bigUkkomon = new Character("Big Ukkomon",3,4,6100, 6100, 6000,2200);
     static public final Character blitzGreymon = new Character("Dorugoramon",3,1,5300, 5300, 5900,2000);
     static public final Character banchoMamemon = new Character("Bancho Mamemon",3,2,4900, 4900, 5800,1900);
+    static public ArrayList<Character> megaArray = new ArrayList<Character>();
 }

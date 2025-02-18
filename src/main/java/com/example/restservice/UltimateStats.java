@@ -2,6 +2,8 @@ package com.example.restservice;
 
 import com.example.vb_battle_server.Character;
 
+import java.util.ArrayList;
+
 public class UltimateStats {
 
     //Stages
@@ -31,14 +33,14 @@ public class UltimateStats {
     static public final Character astamon = new Character("Astamon",2,1,4100, 4100, 6200,1500);
     static public final Character garudamon = new Character("Garudamon",2,3,4200, 4200, 5900,1450);
     static public final Character arkhaiAngemon = new Character("Arkhai Angemon",2,3,4250, 4250, 6100,1400);
-    static public final Character yatagaramon_2006 = new Character("Yatagaramon (2006)",2,3,3900, 3900, 6200,1400);
+    static public final Character yatagaramon_2006 = new Character("Yatagaramon - 2006",2,3,3900, 3900, 6200,1400);
     static public final Character huankunmon = new Character("Huankunmon",2,3,4500, 4500, 5400,1550);
     static public final Character jazarichmon = new Character("Jazarichmon",2,2,4200, 4200, 6000,1600);
-    static public final Character megaKabuterimon_red = new Character("MegaKabuterimon (Red)",2,3,4700, 4700, 5300,1500);
+    static public final Character megaKabuterimon_red = new Character("MegaKabuterimon - Red",2,3,4700, 4700, 5300,1500);
     static public final Character lilamon = new Character("Lilamon",2,2,4300, 4300, 6000,1600);
     static public final Character cannonbeemon = new Character("Cannonbeemon",2,1,4500, 4500, 5400,1550);
     static public final Character okuwamon = new Character("Okuwamon",2,1,4500, 4500, 5100,1450);
-    static public final Character eosmon_perfect = new Character("Eosmon (Perfect)",2,4,4500, 4500, 6000,1500);
+    static public final Character eosmon_perfect = new Character("Eosmon - Perfect",2,4,4500, 4500, 6000,1500);
     static public final Character soloogarmon = new Character("Soloogarmon",2,1,4300, 4300, 6200,1550);
     static public final Character stiffilmon = new Character("Stiffilmon",2,2,4600, 4600, 5600,1500);
     static public final Character helloogarmon = new Character("Helloogarmon",2,1,4000, 4000, 4800,1600);
@@ -98,5 +100,6 @@ public class UltimateStats {
     static public final Character chimairamon = new Character("Chimairamon",2,2,5100, 5100, 6100,1700);
     static public final Character metalGreymon = new Character("Metal Greymon",2,1,5100, 5100, 5400,1500);
     static public final Character mamemon = new Character("Mamemon",2,2,4400, 4400, 5500,1540);
+    static public ArrayList<Character> ultimateArray = new ArrayList<Character>();
 
 }

@@ -31,7 +31,7 @@ public class RookieStats {
     static public final Character phascomon = new Character("Phascomon",0,1,3800, 3800, 4100,1000);
     static public final Character piyomon = new Character("Piyomon",0,3,2900, 2900, 4600,1000);
     static public final Character luxmon = new Character("Luxmon",0,3,2950, 2950, 5100,1050);
-    static public final Character falcomon_2006 = new Character("Falcomon (2006)",0,3,2800, 2800, 4500,1000);
+    static public final Character falcomon_2006 = new Character("Falcomon - 2006",0,3,2800, 2800, 4500,1000);
     static public final Character jazamon = new Character("Jazamon",0,2,3000, 3000, 5050,1100);
     static public final Character tentomon = new Character("Tentomon",0,3,3000, 3000, 4300,1100);
     static public final Character lalamon = new Character("Lalamon",0,2,2800, 2800, 5000,1050);
@@ -43,7 +43,7 @@ public class RookieStats {
     static public final Character ryudamon = new Character("Ryudamon",0,3,3100, 3100, 4500,1000);
     static public final Character commandramon = new Character("Commandramon",0,1,2800, 2800, 4900,900);
     static public final Character dorumon = new Character("Dorumon",0,2,3000, 3000, 5100,1050);
-    static public final Character agumon_black = new Character("Agumon (Black)",0,3,2900, 2900, 5100,900);
+    static public final Character agumon_black = new Character("Agumon - Black",0,3,2900, 2900, 5100,900);
     static public final Character pulsemon = new Character("Pulsemon",0,3,2700, 2700, 4800,1000);
     static public final Character kudamon = new Character("Kudamon",0,3,2500, 2500, 5000,900);
     static public final Character shoutmon = new Character("Shoutmon",0,2,3100, 3100, 4700,1100);

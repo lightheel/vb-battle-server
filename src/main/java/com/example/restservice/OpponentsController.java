@@ -39,7 +39,7 @@ public class OpponentsController {
             case 2:
                 characterArray.add(UltimateStats.doruguremon);
                 characterArray.add(UltimateStats.metalGreymon);
-                characterArray.add(UltimateStats.doruguremon);
+                characterArray.add(UltimateStats.groundramon);
                 return characterArray;
             case 3:
                 characterArray.add(MegaStats.machinedramon);

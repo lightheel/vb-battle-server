@@ -2,6 +2,8 @@ package com.example.restservice;
 
 import com.example.vb_battle_server.Character;
 
+import java.util.ArrayList;
+
 public class ChampionStats {
 
     //Stages
@@ -20,9 +22,9 @@ public class ChampionStats {
     //Digimon server-side stat references.
     //Champion
     static public final Character geoGreymon = new Character("Geo Greymon",1,3,3600, 3600, 3800,1300);
-    static public final Character coredramon_blue = new Character("Coredramon (Blue)",1,3,3300, 3300, 5800,1100);
+    static public final Character coredramon_blue = new Character("Coredramon - Blue",1,3,3300, 3300, 5800,1100);
     static public final Character baoHackmon = new Character("Bao Hackmon",1,2,3500, 3500, 5600,1300);
-    static public final Character coredramon_green = new Character("Coredramon (Green)",1,1,3600, 3600, 3500,1250);
+    static public final Character coredramon_green = new Character("Coredramon - Green",1,1,3600, 3600, 3500,1250);
     static public final Character arresterdramon = new Character("Arresterdramon",1,3,3600, 3600, 5700,1250);
     static public final Character gaogamon = new Character("Gaogamon",1,2,3400, 3400, 6500,1200);
     static public final Character firamon = new Character("Firamon",1,3,3700, 3700, 5000,1310);
@@ -89,4 +91,5 @@ public class ChampionStats {
     static public final Character nefertimon = new Character("Nefertimon",1,4,3400, 3400, 5700,1100);
     static public final Character shurimon = new Character("Shurimon",1,4,3100, 3100, 5200,1150);
     static public final Character greymon = new Character("Greymon",1,3,3500, 3500, 5100,1300);
+    static public ArrayList<Character> championArray = new ArrayList<Character>();
 }
