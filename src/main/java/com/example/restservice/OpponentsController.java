@@ -21,34 +21,69 @@ public class OpponentsController {
             default -> -1;
         };
     }
-    ArrayList<Character> characterArray = new ArrayList<>();
-    ArrayList<Character> OpponentsByStage(int stage){
-        characterArray = new ArrayList<>();
 
-        switch (stage){
-            case 0:
-                characterArray.add(RookieStats.agumon);
-                characterArray.add(RookieStats.pulsemon);
-                characterArray.add(RookieStats.dorumon);
-                return characterArray;
-            case 1:
-                characterArray.add(ChampionStats.greymon);
-                characterArray.add(ChampionStats.betelGammamon);
-                characterArray.add(ChampionStats.dorugamon);
-                return characterArray;
-            case 2:
-                characterArray.add(UltimateStats.doruguremon);
-                characterArray.add(UltimateStats.metalGreymon);
-                characterArray.add(UltimateStats.groundramon);
-                return characterArray;
-            case 3:
-                characterArray.add(MegaStats.machinedramon);
-                characterArray.add(MegaStats.dorugoramon);
-                characterArray.add(MegaStats.jesmon);
-                return characterArray;
-            default:
-                return characterArray;
+    boolean initialOpponentSetup = false;
+    static public ArrayList<Character> rookieArray = new ArrayList<>();
+    static public void addRookie(Character character) {
+        rookieArray.add(character);
+    }
+    static public ArrayList<Character> championArray = new ArrayList<>();
+    static public void addChampion(Character character) {
+        championArray.add(character);
+    }
+    static public ArrayList<Character> ultimateArray = new ArrayList<>();
+    static public void addUltimate(Character character) {
+        ultimateArray.add(character);
+    }
+    static public ArrayList<Character> megaArray = new ArrayList<>();
+    static public void addMega(Character character) {
+        megaArray.add(character);
+    }
+    ArrayList<Character> OpponentsByStage(int stage) {
+        //characterArray = new ArrayList<>();
 
+        if (initialOpponentSetup) {
+            switch (stage) {
+                case 0:
+                    return rookieArray;
+                case 1:
+                    return championArray;
+                case 2:
+                    return ultimateArray;
+                case 3:
+                    return megaArray;
+                default:
+                    return new ArrayList<>();
+
+            }
+        }
+        else {
+            initialOpponentSetup = true;
+            switch (stage) {
+                case 0:
+                    rookieArray.add(RookieStats.agumon);
+                    rookieArray.add(RookieStats.pulsemon);
+                    rookieArray.add(RookieStats.dorumon);
+                    return rookieArray;
+                case 1:
+                    championArray.add(ChampionStats.greymon);
+                    championArray.add(ChampionStats.betelGammamon);
+                    championArray.add(ChampionStats.dorugamon);
+                    return championArray;
+                case 2:
+                    ultimateArray.add(UltimateStats.doruguremon);
+                    ultimateArray.add(UltimateStats.metalGreymon);
+                    ultimateArray.add(UltimateStats.groundramon);
+                    return ultimateArray;
+                case 3:
+                    megaArray.add(MegaStats.machinedramon);
+                    megaArray.add(MegaStats.dorugoramon);
+                    megaArray.add(MegaStats.jesmon);
+                    return megaArray;
+                default:
+                    return new ArrayList<>();
+
+            }
         }
     }
 
