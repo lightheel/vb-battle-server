@@ -10,6 +10,12 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Random;
 
+
+class combatRoundWrapper{
+    int playerCombatDamage;
+    int opponentCombatDamage;
+    boolean playerAttackHit;
+}
 @RestController
 public class PVPController {
 
@@ -58,8 +64,9 @@ public class PVPController {
             return winner;
         }
 
-        void processCombatRound(float critBar) {
+        combatRoundWrapper processCombatRound(float critBar) {
             combatRound++;
+            combatRoundWrapper tempRoundWrapper = new combatRoundWrapper();
 
             int attackDamage = 0;
             int randTotal = rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15);
@@ -67,24 +74,33 @@ public class PVPController {
             if (checkAttackHit(playerCharacter, opponentCharacter)) {
                 if (critBar == 100.0f) {
                     attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal) + randTotal;
+                    tempRoundWrapper.opponentCombatDamage = attackDamage;
                 }
                 else {
                     attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal);
+                    tempRoundWrapper.opponentCombatDamage = attackDamage;
                 }
                 //deal damage to player
                 playerCharacter.setCurrentHp(playerCharacter.getCurrentHp() - attackDamage);
                 //System.out.println("player HP: " + playerCharacter.getCurrentHp());
+                tempRoundWrapper.playerAttackHit = false;
+                return tempRoundWrapper;
             }
             else {
                 if (rand.nextInt(99) >= 90) {
                     attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal) + randTotal;
+                    tempRoundWrapper.playerCombatDamage = attackDamage;
                 }
                 else {
                     attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal);
+                    tempRoundWrapper.playerCombatDamage = attackDamage;
                 }
                 //deal damage to enemy
                 opponentCharacter.setCurrentHp(opponentCharacter.getCurrentHp() - attackDamage);
                 //System.out.println("opponent HP: " + opponentCharacter.getCurrentHp());
+
+                tempRoundWrapper.playerAttackHit = true;
+                return tempRoundWrapper;
             }
         }
 
@@ -183,6 +199,9 @@ public class PVPController {
     }
     @GetMapping("api/pvp")
     public PVP pvp(@RequestParam(value = "apiStage") int apiStage, @RequestParam(value = "playerID") String playerID, @RequestParam(value = "playerDigi") String playerDigi, @RequestParam(value = "playerStage") int playerStage, @RequestParam(value = "critBar") float critBar, @RequestParam(value = "opponentDigi") String opponentDigi, @RequestParam(value = "opponentStage") int opponentStage) {
+
+        System.out.println("api stage: " + apiStage);
+
         switch (apiStage) {
             //Match setup stage
             case 0:
@@ -190,27 +209,32 @@ public class PVPController {
                 Character tempOpponent = findOpponentDigi(opponentStage, opponentDigi);
 
                 if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
-                    return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(),"");
+                    return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1,"");
                 }
                 else {
-                    return new PVP("Player already in active match. Nothing happens.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), "");
+                    return new PVP("Player already in active match. Nothing happens.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1, "");
                 }
 
             //Combat processing stage
             case 1:
-
-                if (combatDictionary.get(playerID) != null) {
-                    if (combatDictionary.get(playerID).isCombatComplete()) {
-                        System.out.println("Message ID: " + msgID++ +" Match over. Winner is: " +  combatDictionary.get(playerID).getWinner().getName());
-                        return new PVP("Winner reported. Match over.", 2, combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(), combatDictionary.get(playerID).getWinner().getName());
+                if (combatDictionary != null) {
+                    if (combatDictionary.get(playerID) != null) {
+                        if (combatDictionary.get(playerID).isCombatComplete()) {
+                            System.out.println("Message ID: " + msgID++ + " Match over. Winner is: " + combatDictionary.get(playerID).getWinner().getName());
+                            return new PVP("Winner reported. Match over.", 2, combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(), false, -1, -1, combatDictionary.get(playerID).getWinner().getName());
+                        }
+                        else {
+                            combatRoundWrapper tempCombatRound = combatDictionary.get(playerID).processCombatRound(critBar);
+                            return new PVP("Match processing.", 1, combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(), tempCombatRound.playerAttackHit, tempCombatRound.playerCombatDamage, tempCombatRound.opponentCombatDamage, "");
+                        }
                     }
                     else {
-                        combatDictionary.get(playerID).processCombatRound(critBar);
-                        return new PVP("Match processing.", 1,combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(),"");
+                        System.out.println("ERROR: Player ID not found in current match. Wrong API state sent.");
+                        break;
                     }
                 }
                 else {
-                    System.out.println("ERROR: Player ID not found in current match. Wrong API state sent.");
+                    System.out.println("ERROR: Combat dictionary is null.");
                     break;
                 }
 
@@ -225,17 +249,17 @@ public class PVPController {
                             int finalOpponentHP = tempInstance.opponentCharacter.getCurrentHp();
                             combatDictionary.get(playerID).resetCombat();
                             combatDictionary.remove(playerID);
-                            return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP, tempInstance.getWinner().getName());
+                            return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP, false, -1, -1, tempInstance.getWinner().getName());
                         }
                         else {
                             System.out.println("ERROR: combat not completed. Wrong API state sent.");
                         }
                     }
                     else {
-                        return new PVP("Player ID not found in current match.", -1,-1, -1, -1,"");
+                        return new PVP("Player ID not found in current match.", -1,-1, -1, -1, false, -1, -1,"");
                     }
                 }
         }
-        return new PVP("Error processing request", -1,-1, -1, -1,"");
+        return new PVP("Error processing request", -1,-1, -1, -1, false, -1, -1,"");
     }
 }
