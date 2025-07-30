@@ -1,17 +1,19 @@
 package com.example.vb_battle_server
 
-class Character (
+public class Character (
     /*
     val dimId: Long,
     val monIndex: Int,
      */
     var name: String,
+    var namekey: String,
+    var charaId: String,
     var stage: Int, // These should be replaced with enums
     var attribute: Int, // This one too
     var baseHp: Int,
     var currentHp: Int,
     var baseBp: Float,
-    var baseAp: Float,
+    var baseAp: Float
     /*
     val sprite1: ByteArray,
     val sprite2: ByteArray,
