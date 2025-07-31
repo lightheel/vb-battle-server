@@ -20,9 +20,7 @@ public class ChampionStats {
     // 4 Free
 
     //Digimon server-side stat references.
-    //Champion
-
-    //VB Rookie Characters (Phase 4) - (ipId=1 only)
+    //VB Champion Characters (Phase 4) - (ipId=1 only)
 
     //DIM CHARACTERS
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -183,7 +181,7 @@ public class ChampionStats {
     static public final Character dim035_mon06 = new Character("HOVERESPIMON","degimon_name_Dim035_008","dim035_mon06",1,2,1600, 1600, 2400.0f,900.0f);
     static public final Character dim035_mon07 = new Character("REPPAMON","degimon_name_Dim035_009","dim035_mon07",1,1,1600, 1600, 2400.0f,900.0f);
     static public final Character dim035_mon08 = new Character("BLACKTAILMON UVER.","degimon_name_Dim035_010","dim035_mon08",1,2,2000, 2000, 2400.0f,600.0f);
-    //Strabimon
+    //Wolfmon EX
     static public final Character dim036_mon05 = new Character("LOBOMON","degimon_name_Dim036_007","dim036_mon05",1,4,2000, 2000, 3000.0f,900.0f);
     static public final Character dim036_mon06 = new Character("DOBERMON","degimon_name_Dim036_008","dim036_mon06",1,1,2000, 2000, 2400.0f,600.0f);
     static public final Character dim036_mon07 = new Character("LANAMON","degimon_name_Dim036_009","dim036_mon07",1,4,1600, 1600, 2400.0f,900.0f);
