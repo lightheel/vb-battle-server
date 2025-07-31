@@ -1,0 +1,342 @@
+package com.example.restservice;
+
+import com.example.vb_battle_server.Character;
+
+import java.util.ArrayList;
+
+public class UltimateStats {
+
+    //Stages
+    // 0 Rookie
+    // 1 Champion
+    // 2 Ultimate
+    // 3 Mega
+
+    //Attributes
+    // 0 None
+    // 1 Virus
+    // 2 Data
+    // 3 Vaccine
+    // 4 Free
+
+    //Digimon server-side stat references.
+    //VB Ultimate Characters (Phase 5) - (ipId=1 only)
+
+    //DIM CHARACTERS
+    //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Impulse City
+    static public final Character dim000_mon08 = new Character("BOUTMON","degimon_name_Dim000_008","dim000_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim000_mon09 = new Character("SHOOTMON","degimon_name_Dim000_009","dim000_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim000_mon10 = new Character("DIVEMON","degimon_name_Dim000_010","dim000_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim000_mon11 = new Character("TEMPOMON","degimon_name_Dim000_011","dim000_mon11",2,3,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim000_mon12 = new Character("CLIMBMON","degimon_name_Dim000_012","dim000_mon12",2,2,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim000_mon13 = new Character("PISTMON","degimon_name_Dim000_013","dim000_mon13",2,2,1980, 1980, 1750.0f,800.0f);
+    //Titan of Dust
+    static public final Character dim001_mon08 = new Character("GOGMAMON","degimon_name_Dim001_008","dim001_mon08",2,1,3080, 3080, 2450.0f,600.0f);
+    static public final Character dim001_mon09 = new Character("JAGAMON","degimon_name_Dim001_009","dim001_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim001_mon10 = new Character("TRICERAMON","degimon_name_Dim001_010","dim001_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim001_mon11 = new Character("SKULLSCORPIOMON","degimon_name_Dim001_011","dim001_mon11",2,3,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim001_mon12 = new Character("VULTUREMON","degimon_name_Dim001_012","dim001_mon12",2,2,2200, 2200, 2450.0f,800.0f);
+    static public final Character dim001_mon13 = new Character("MUMMYMON","degimon_name_Dim001_013","dim001_mon13",2,2,1980, 1980, 2100.0f,800.0f);
+    //Infinite Tide
+    static public final Character dim002_mon08 = new Character("GUSOKUMON","degimon_name_Dim002_008","dim002_mon08",2,1,3080, 3080, 2450.0f,600.0f);
+    static public final Character dim002_mon09 = new Character("MARINCHIMAIRAMON","degimon_name_Dim002_009","dim002_mon09",2,1,1980, 1980, 2100.0f,1000.0f);
+    static public final Character dim002_mon10 = new Character("MERMAIMON","degimon_name_Dim002_010","dim002_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim002_mon11 = new Character("MEGASEADRAMON","degimon_name_Dim002_011","dim002_mon11",2,3,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim002_mon12 = new Character("PIRANIMON","degimon_name_Dim002_012","dim002_mon12",2,2,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim002_mon13 = new Character("DRAGOMON","degimon_name_Dim002_013","dim002_mon13",2,2,1980, 1980, 2100.0f,800.0f);
+    //Hermit in the Jungle
+    static public final Character dim003_mon08 = new Character("AJATARMON","degimon_name_Dim003_008","dim003_mon08",2,1,3080, 3080, 2450.0f,600.0f);
+    static public final Character dim003_mon09 = new Character("JEWELBEEMON","degimon_name_Dim003_009","dim003_mon09",2,1,2200, 2200, 2100.0f,800.0f);
+    static public final Character dim003_mon10 = new Character("LILLYMON","degimon_name_Dim003_010","dim003_mon10",2,3,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim003_mon11 = new Character("BLOSSOMON","degimon_name_Dim003_011","dim003_mon11",2,3,3080, 3080, 2100.0f,800.0f);
+    static public final Character dim003_mon12 = new Character("TOROPIAMON","degimon_name_Dim003_012","dim003_mon12",2,2,1760, 1760, 2100.0f,1000.0f);
+    static public final Character dim003_mon13 = new Character("ARUKENIMON","degimon_name_Dim003_013","dim003_mon13",2,2,1980, 1980, 2450.0f,800.0f);
+    //Primeval Warriors
+    static public final Character dim004_mon08 = new Character("JEWELBEEMON","degimon_name_Dim004_004","dim004_mon08",2,1,2200, 2200, 2100.0f,800.0f);
+    static public final Character dim004_mon09 = new Character("PAILDRAMON","degimon_name_Dim004_001","dim004_mon09",2,4,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim004_mon10 = new Character("DINOBEEMON","degimon_name_Dim004_002","dim004_mon10",2,4,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim004_mon11 = new Character("KONGOUMON","degimon_name_Dim004_012","dim004_mon11",2,4,2640, 2640, 2450.0f,600.0f);
+    static public final Character dim004_mon12 = new Character("BUCCHIEMON","degimon_name_Dim004_013","dim004_mon12",2,4,1540, 1540, 2450.0f,1000.0f);
+    static public final Character dim004_mon13 = new Character("BUCCHIEMON (GREEN)","degimon_name_Dim004_014","dim004_mon13",2,4,1760, 1760, 2450.0f,800.0f);
+    //Nu Metal Empire
+    static public final Character dim005_mon08 = new Character("LOADERLIOMON","degimon_name_Dim005_008","dim005_mon08",2,1,3080, 3080, 2450.0f,600.0f);
+    static public final Character dim005_mon09 = new Character("ATLURBALLISTAMON","degimon_name_Dim005_009","dim005_mon09",2,1,2200, 2200, 2100.0f,800.0f);
+    static public final Character dim005_mon10 = new Character("METALMAMEMON","degimon_name_Dim005_010","dim005_mon10",2,3,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim005_mon11 = new Character("LOCOMON","degimon_name_Dim005_011","dim005_mon11",2,3,3080, 3080, 2100.0f,800.0f);
+    static public final Character dim005_mon12 = new Character("REBELLIMON","degimon_name_Dim005_012","dim005_mon12",2,2,1760, 1760, 2100.0f,1000.0f);
+    static public final Character dim005_mon13 = new Character("METALGREYMON (2010 ANIME VERSION)","degimon_name_Dim005_013","dim005_mon13",2,2,1980, 1980, 2450.0f,800.0f);
+    //Agnimon EX
+    static public final Character dim006_mon09 = new Character("ALDAMON","degimon_name_Dim006_010","dim006_mon09",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim006_mon10 = new Character("BURNINGGREYMON","degimon_name_Dim006_011","dim006_mon10",2,4,1760, 1760, 2800.0f,1000.0f);
+    static public final Character dim006_mon11 = new Character("SUPERSTARMON","degimon_name_Dim006_012","dim006_mon11",2,3,1540, 1540, 2100.0f,800.0f);
+    static public final Character dim006_mon12 = new Character("GIGASMON","degimon_name_Dim006_013","dim006_mon12",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim006_mon13 = new Character("DARKSUPERSTARMON","degimon_name_Dim006_014","dim006_mon13",2,2,1540, 1540, 2100.0f,800.0f);
+    //Ancient Warriors
+    static public final Character dim007_mon08 = new Character("AEROVEEDRAMON","degimon_name_Dim007_008","dim007_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim007_mon09 = new Character("PAILDRAMON","degimon_name_Dim007_009","dim007_mon09",2,4,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim007_mon10 = new Character("SAGITTARIMON","degimon_name_Dim007_010","dim007_mon10",2,4,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim007_mon11 = new Character("DINOBEEMON","degimon_name_Dim007_011","dim007_mon11",2,4,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim007_mon12 = new Character("GOLDVEEDRAMON","degimon_name_Dim007_012","dim007_mon12",2,1,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim007_mon13 = new Character("DIGITAMAMON","degimon_name_Dim007_013","dim007_mon13",2,3,1980, 1980, 1750.0f,800.0f);
+    //Volcanic Beat
+    static public final Character dim008_mon08 = new Character("MASTERTYRANNOMON","degimon_name_Dim008_008","dim008_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim008_mon09 = new Character("FLAREMON","degimon_name_Dim008_009","dim008_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim008_mon10 = new Character("SKULLMERAMON","degimon_name_Dim008_010","dim008_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim008_mon11 = new Character("VOLCANOMON","degimon_name_Dim008_011","dim008_mon11",2,3,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim008_mon12 = new Character("LAVOGARITAMON","degimon_name_Dim008_012","dim008_mon12",2,2,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim008_mon13 = new Character("GROUNDRAMON","degimon_name_Dim008_013","dim008_mon13",2,2,1980, 1980, 2100.0f,800.0f);
+    //Blizard Fang
+    static public final Character dim009_mon08 = new Character("MAMMOTHMON","degimon_name_Dim009_008","dim009_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim009_mon09 = new Character("ICELEOMON","degimon_name_Dim009_009","dim009_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim009_mon10 = new Character("CRYSPALEDRAMON","degimon_name_Dim009_010","dim009_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim009_mon11 = new Character("CRESCEMON","degimon_name_Dim009_011","dim009_mon11",2,3,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim009_mon12 = new Character("FROZOMON","degimon_name_Dim009_012","dim009_mon12",2,2,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim009_mon13 = new Character("DAIPENMON","degimon_name_Dim009_013","dim009_mon13",2,4,1980, 1980, 2100.0f,800.0f);
+    //Fairimon EX
+    static public final Character dim010_mon09 = new Character("JETSILPHYMON","degimon_name_Dim010_009","dim010_mon09",2,4,1760, 1760, 2800.0f,1000.0f);
+    static public final Character dim010_mon10 = new Character("ZEPHYRMON","degimon_name_Dim010_010","dim010_mon10",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim010_mon11 = new Character("PETALDRAMON","degimon_name_Dim010_011","dim010_mon11",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim010_mon12 = new Character("PEACOCKMON","degimon_name_Dim010_012","dim010_mon12",2,4,1540, 1540, 2100.0f,800.0f);
+    static public final Character dim010_mon13 = new Character("ZAMIELMON","degimon_name_Dim010_013","dim010_mon13",2,3,1540, 1540, 2100.0f,800.0f);
+    //Dynasty of the Evil
+    static public final Character dim011_mon08 = new Character("BAALMON","degimon_name_Dim011_002","dim011_mon08",2,4,2200, 2200, 2450.0f,800.0f);
+    static public final Character dim011_mon09 = new Character("CYBERDRAMON","degimon_name_Dim011_010","dim011_mon09",2,1,1980, 1980, 2100.0f,1000.0f);
+    static public final Character dim011_mon10 = new Character("PUMPKINMON","degimon_name_Dim011_011","dim011_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim011_mon11 = new Character("MYOTISMON","degimon_name_Dim011_012","dim011_mon11",2,2,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim011_mon12 = new Character("JOKERMON","degimon_name_Dim011_013","dim011_mon12",2,2,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim011_mon13 = new Character("PHANTOMON","degimon_name_Dim011_014","dim011_mon13",2,2,1980, 1980, 2100.0f,800.0f);
+    //Agumon EX
+    static public final Character dim012_mon08 = new Character("METALGREYMON (VACCINE)","degimon_name_Dim012_008","dim012_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim012_mon09 = new Character("ANDROMON","degimon_name_Dim012_009","dim012_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim012_mon10 = new Character("SCORPIOMON","degimon_name_Dim012_010","dim012_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim012_mon11 = new Character("MAMEMON","degimon_name_Dim012_011","dim012_mon11",2,3,1760, 1760, 2100.0f,1000.0f);
+    static public final Character dim012_mon12 = new Character("NEODEVIMON","degimon_name_Dim012_012","dim012_mon12",2,2,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim012_mon13 = new Character("METALTYRANNOMON","degimon_name_Dim012_013","dim012_mon13",2,2,2200, 2200, 1750.0f,800.0f);
+    //Gabumon EX
+    static public final Character dim013_mon08 = new Character("WEREGARURUMON","degimon_name_Dim013_009","dim013_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim013_mon09 = new Character("PARROTMON","degimon_name_Dim013_010","dim013_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim013_mon10 = new Character("BULBMON","degimon_name_Dim013_011","dim013_mon10",2,3,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim013_mon11 = new Character("BIGMAMEMON","degimon_name_Dim013_012","dim013_mon11",2,3,1760, 1760, 2100.0f,1000.0f);
+    static public final Character dim013_mon12 = new Character("OROCHIMON","degimon_name_Dim013_013","dim013_mon12",2,2,2200, 2200, 2450.0f,600.0f);
+    static public final Character dim013_mon13 = new Character("WARUSEADRAMON","degimon_name_Dim013_014","dim013_mon13",2,2,2200, 2200, 1750.0f,800.0f);
+    //Black Roar
+    static public final Character dim014_mon05 = new Character("METALGREYMON (VIRUS)","degimon_name_Dim014_005","dim014_mon05",2,2,2640, 2640, 2450.0f,800.0f);
+    //Shadow Howl
+    static public final Character dim015_mon05 = new Character("WEREGARURUMON (BLACK)","degimon_name_Dim015_006","dim015_mon05",2,2,2640, 2640, 2450.0f,800.0f);
+    //Chackmon EX
+    static public final Character dim016_mon09 = new Character("DAIPENMON","degimon_name_Dim016_003","dim016_mon09",2,4,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim016_mon10 = new Character("KORIKAKUMON","degimon_name_Dim016_012","dim016_mon10",2,4,1760, 1760, 2100.0f,1000.0f);
+    static public final Character dim016_mon11 = new Character("ICELEOMON (X-ANTIBODY)","degimon_name_Dim016_013","dim016_mon11",2,1,2200, 2200, 2100.0f,800.0f);
+    static public final Character dim016_mon12 = new Character("DATAMON","degimon_name_Dim016_014","dim016_mon12",2,2,1760, 1760, 2450.0f,800.0f);
+    static public final Character dim016_mon13 = new Character("ASTAMON","degimon_name_Dim016_015","dim016_mon13",2,2,2200, 2200, 2450.0f,800.0f);
+    //Guilmon EX
+    static public final Character dim017_mon08 = new Character("VAJRAMON","degimon_name_Dim017_010","dim017_mon08",2,1,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim017_mon09 = new Character("MAJIRAMON","degimon_name_Dim017_011","dim017_mon09",2,3,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim017_mon10 = new Character("MIHIRAMON","degimon_name_Dim017_012","dim017_mon10",2,3,1760, 1760, 2100.0f,800.0f);
+    static public final Character dim017_mon11 = new Character("WARGROWLMON (ORANGE)","degimon_name_Dim017_013","dim017_mon11",2,3,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim017_mon12 = new Character("WARGROWLMON","degimon_name_Dim017_005","dim017_mon12",2,2,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim017_mon13 = new Character("SANDIRAMON","degimon_name_Dim017_014","dim017_mon13",2,2,1540, 1540, 2100.0f,1000.0f);
+    //Terriermon EX
+    static public final Character dim018_mon08 = new Character("RAPIDMON","degimon_name_Dim018_008","dim018_mon08",2,1,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim018_mon09 = new Character("SINDURAMON","degimon_name_Dim018_009","dim018_mon09",2,3,1760, 1760, 2100.0f,600.0f);
+    static public final Character dim018_mon10 = new Character("MAKURAMON","degimon_name_Dim018_010","dim018_mon10",2,3,1760, 1760, 2450.0f,800.0f);
+    static public final Character dim018_mon11 = new Character("ANTYLAMON (DEVA)","degimon_name_Dim018_011","dim018_mon11",2,3,1540, 1540, 2100.0f,1000.0f);
+    static public final Character dim018_mon12 = new Character("PAJIRAMON","degimon_name_Dim018_012","dim018_mon12",2,2,1760, 1760, 2450.0f,800.0f);
+    static public final Character dim018_mon13 = new Character("ANTYLAMON","degimon_name_Dim018_013","dim018_mon13",2,2,1540, 1540, 2100.0f,1000.0f);
+    //Guilmon GP
+    static public final Character dim019_mon05 = new Character("WARGROWLMON","degimon_name_Dim019_005","dim019_mon05",2,2,1760, 1760, 2450.0f,1000.0f);
+    //Impmon GP
+    static public final Character dim020_mon05 = new Character("BAALMON","degimon_name_Dim020_005","dim020_mon05",2,4,2200, 2200, 2450.0f,800.0f);
+    //Monodramon GP
+    static public final Character dim021_mon05 = new Character("TAOMON","degimon_name_Dim021_005","dim021_mon05",2,3,1760, 1760, 2450.0f,1000.0f);
+    //Renamon GP
+    static public final Character dim022_mon05 = new Character("CYBERDRAMON","degimon_name_Dim022_013","dim022_mon05",2,1,2200, 2200, 2450.0f,800.0f);
+    //Gammamon
+    static public final Character dim023_mon08 = new Character("CANOWEISSMON","degimon_name_Dim023_008","dim023_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim023_mon09 = new Character("BRACHIOMON","degimon_name_Dim023_009","dim023_mon09",2,3,1760, 1760, 2100.0f,1000.0f);
+    static public final Character dim023_mon10 = new Character("KIMERAMON","degimon_name_Dim023_010","dim023_mon10",2,3,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim023_mon11 = new Character("TANKDRAMON","degimon_name_Dim023_011","dim023_mon11",2,2,2200, 2200, 2100.0f,800.0f);
+    //Angoramon
+    static public final Character dim025_mon08 = new Character("LAMORTMON","degimon_name_Dim025_008","dim025_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim025_mon09 = new Character("GRAPLEOMON","degimon_name_Dim025_009","dim025_mon09",2,1,2200, 2200, 2100.0f,1000.0f);
+    static public final Character dim025_mon10 = new Character("SKULLBALUCHIMON","degimon_name_Dim025_010","dim025_mon10",2,3,2200, 2200, 2450.0f,800.0f);
+    static public final Character dim025_mon11 = new Character("WARUMONZAEMON","degimon_name_Dim025_011","dim025_mon11",2,2,2640, 2640, 2100.0f,800.0f);
+    //Jellymon
+    static public final Character dim026_mon08 = new Character("WHAMON","degimon_name_Dim026_008","dim026_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim026_mon09 = new Character("THETISMON","degimon_name_Dim026_009","dim026_mon09",2,3,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim026_mon10 = new Character("DIVERMON","degimon_name_Dim026_010","dim026_mon10",2,3,2640, 2640, 2100.0f,800.0f);
+    static public final Character dim026_mon11 = new Character("MARINEDEVIMON","degimon_name_Dim026_011","dim026_mon11",2,2,2200, 2200, 2100.0f,800.0f);
+    //Mad Black Roar
+    static public final Character dim027_mon08 = new Character("METALGREYMON: ALTEROUS MODE","degimon_name_Dim027_011","dim027_mon08",2,1,2200, 2200, 2450.0f,1000.0f);
+    static public final Character dim027_mon09 = new Character("EXTYRANNOMON","degimon_name_Dim027_012","dim027_mon09",2,1,2640, 2640, 2100.0f,800.0f);
+    static public final Character dim027_mon10 = new Character("VERMILIMON","degimon_name_Dim027_013","dim027_mon10",2,3,2200, 2200, 2450.0f,1000.0f);
+    static public final Character dim027_mon11 = new Character("MAMETYRAMON","degimon_name_Dim027_014","dim027_mon11",2,3,1760, 1760, 2100.0f,1200.0f);
+    static public final Character dim027_mon12 = new Character("METALGREYMON (VIRUS)","degimon_name_Dim027_006","dim027_mon12",2,2,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim027_mon13 = new Character("SKULLGREYMON","degimon_name_Dim027_015","dim027_mon13",2,2,3520, 3520, 2100.0f,800.0f);
+    //True Shadow Howl
+    static public final Character dim028_mon08 = new Character("WEREGARURUMON: SAGITTARIUS MODE","degimon_name_Dim028_011","dim028_mon08",2,1,2200, 2200, 2450.0f,1000.0f);
+    static public final Character dim028_mon09 = new Character("CERBERUSMON","degimon_name_Dim028_012","dim028_mon09",2,1,2640, 2640, 2100.0f,800.0f);
+    static public final Character dim028_mon10 = new Character("RHINOMON","degimon_name_Dim028_013","dim028_mon10",2,4,3520, 3520, 2450.0f,800.0f);
+    static public final Character dim028_mon11 = new Character("PANDAMON","degimon_name_Dim028_014","dim028_mon11",2,3,2640, 2640, 2100.0f,1000.0f);
+    static public final Character dim028_mon12 = new Character("WEREGARURUMON (BLACK)","degimon_name_Dim028_007","dim028_mon12",2,2,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim028_mon13 = new Character("JAEGER DORULUMON","degimon_name_Dim028_015","dim028_mon13",2,2,3080, 3080, 2100.0f,1000.0f);
+    //Dinosaur Roar
+    static public final Character dim029_mon09 = new Character("METALGREYMON (VACCINE)","degimon_name_Dim029_005","dim029_mon09",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim029_mon10 = new Character("VERMILIMON","degimon_name_Dim029_015","dim029_mon10",2,3,2200, 2200, 2450.0f,1000.0f);
+    static public final Character dim029_mon11 = new Character("SKULLGREYMON","degimon_name_Dim029_016","dim029_mon11",2,2,3520, 3520, 2100.0f,800.0f);
+    static public final Character dim029_mon12 = new Character("METALGREYMON (VIRUS)","degimon_name_Dim029_010","dim029_mon12",2,2,2640, 2640, 2450.0f,800.0f);
+    //Wolf Howl
+    static public final Character dim030_mon09 = new Character("WEREGARURUMON","degimon_name_Dim030_006","dim030_mon09",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim030_mon10 = new Character("PANDAMON","degimon_name_Dim030_015","dim030_mon10",2,3,2640, 2640, 2100.0f,1000.0f);
+    static public final Character dim030_mon11 = new Character("JAEGER DORULUMON","degimon_name_Dim030_016","dim030_mon11",2,2,3080, 3080, 2100.0f,1000.0f);
+    static public final Character dim030_mon12 = new Character("WEREGARURUMON (BLACK)","degimon_name_Dim030_011","dim030_mon12",2,2,2640, 2640, 2450.0f,800.0f);
+    //Metarot
+    static public final Character dim031_mon08 = new Character("GREY WARS","degimon_name_Dim031_008","dim031_mon08",2,4,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim031_mon09 = new Character("GARURU METAL","degimon_name_Dim031_009","dim031_mon09",2,4,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim031_mon10 = new Character("METABEE","degimon_name_Dim031_010","dim031_mon10",2,4,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim031_mon11 = new Character("ROKUSHO","degimon_name_Dim031_011","dim031_mon11",2,4,2200, 2200, 2100.0f,600.0f);
+    //Renamon EX
+    static public final Character dim032_mon08 = new Character("KUMBHIRAMON","degimon_name_Dim032_007","dim032_mon08",2,1,3080, 3080, 2450.0f,600.0f);
+    static public final Character dim032_mon09 = new Character("VIKARALAMON","degimon_name_Dim032_008","dim032_mon09",2,1,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim032_mon10 = new Character("TAOMON","degimon_name_Dim032_002","dim032_mon10",2,3,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim032_mon11 = new Character("DOUMON","degimon_name_Dim032_009","dim032_mon11",2,3,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim032_mon12 = new Character("CATURAMON","degimon_name_Dim032_010","dim032_mon12",2,3,2200, 2200, 2450.0f,800.0f);
+    static public final Character dim032_mon13 = new Character("INDRAMON","degimon_name_Dim032_011","dim032_mon13",2,2,1980, 1980, 2100.0f,800.0f);
+    //Louwemon EX
+    static public final Character dim033_mon09 = new Character("RHIHIMON","degimon_name_Dim033_011","dim033_mon09",2,4,1760, 1760, 2800.0f,1000.0f);
+    static public final Character dim033_mon10 = new Character("JAGERLOWEEMON","degimon_name_Dim033_012","dim033_mon10",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim033_mon11 = new Character("LOADERLIOMON","degimon_name_Dim033_002","dim033_mon11",2,1,3080, 3080, 2450.0f,600.0f);
+    static public final Character dim033_mon12 = new Character("VELGRMON","degimon_name_Dim033_013","dim033_mon12",2,4,1540, 1540, 2100.0f,800.0f);
+    static public final Character dim033_mon13 = new Character("SKULLSATAMON","degimon_name_Dim033_014","dim033_mon13",2,2,1540, 1540, 2100.0f,800.0f);
+    static public final Character dim033_mon14 = new Character("LUCEMON: CHAOS MODE","degimon_name_Dim033_015","dim033_mon14",2,2,3080, 3080, 4900.0f,1800.0f);
+    //Ryudamon
+    static public final Character dim034_mon09 = new Character("DURAMON","degimon_name_Dim034_009","dim034_mon09",2,1,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim034_mon10 = new Character("HISYARYUMON","degimon_name_Dim034_010","dim034_mon10",2,1,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim034_mon11 = new Character("ASURAMON","degimon_name_Dim034_011","dim034_mon11",2,1,1540, 1540, 2450.0f,1000.0f);
+    static public final Character dim034_mon12 = new Character("GYUUKIMON","degimon_name_Dim034_012","dim034_mon12",2,2,1980, 1980, 2100.0f,800.0f);
+    static public final Character dim034_mon13 = new Character("OBOROMON","degimon_name_Dim034_013","dim034_mon13",2,2,1320, 1320, 2100.0f,1200.0f);
+    //Espimon
+    static public final Character dim035_mon09 = new Character("RAIJILUDOMON","degimon_name_Dim035_011","dim035_mon09",2,3,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim035_mon10 = new Character("DIGITAMAMON","degimon_name_Dim035_001","dim035_mon10",2,3,1980, 1980, 1750.0f,800.0f);
+    static public final Character dim035_mon11 = new Character("PICKLEMON","degimon_name_Dim035_012","dim035_mon11",2,3,1320, 1320, 2100.0f,1000.0f);
+    static public final Character dim035_mon12 = new Character("RARERAREMON","degimon_name_Dim035_013","dim035_mon12",2,2,2200, 2200, 2100.0f,600.0f);
+    static public final Character dim035_mon13 = new Character("MANTICOREMON","degimon_name_Dim035_014","dim035_mon13",2,2,1760, 1760, 2450.0f,800.0f);
+    //Wolfmon EX
+    static public final Character dim036_mon09 = new Character("BEOWOLFMON","degimon_name_Dim036_011","dim036_mon09",2,4,1980, 1980, 2800.0f,800.0f);
+    static public final Character dim036_mon10 = new Character("KENDOGARURUMON","degimon_name_Dim036_012","dim036_mon10",2,4,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim036_mon11 = new Character("CALMARAMON","degimon_name_Dim036_013","dim036_mon11",2,4,1540, 1540, 2100.0f,800.0f);
+    static public final Character dim036_mon12 = new Character("SIRENMON","degimon_name_Dim036_014","dim036_mon12",2,3,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim036_mon13 = new Character("SPLASHMON","degimon_name_Dim036_015","dim036_mon13",2,2,1540, 1540, 2100.0f,800.0f);
+    //Blitzmon EX
+    static public final Character dim037_mon09 = new Character("RHINOKABUTERIMON","degimon_name_Dim037_009","dim037_mon09",2,4,1760, 1760, 2800.0f,1000.0f);
+    static public final Character dim037_mon10 = new Character("METALKABUTERIMON","degimon_name_Dim037_010","dim037_mon10",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim037_mon11 = new Character("SEPHIROTHMON","degimon_name_Dim037_011","dim037_mon11",2,4,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim037_mon12 = new Character("METALLIFEKUWAGAMON","degimon_name_Dim037_012","dim037_mon12",2,2,1540, 1540, 2100.0f,800.0f);
+    static public final Character dim037_mon13 = new Character("WISEMON","degimon_name_Dim037_013","dim037_mon13",2,2,1540, 1540, 2100.0f,800.0f);
+
+    //BEM CHARACTERS
+    //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    //25th Anniversary Characters
+    static public final Character dim124_mon12 = new Character("METALGREYMON (VIRUS)","degimon_name_dim124_mon12","dim124_mon12",2,2,5100, 5100, 5400.0f,1500.0f);
+    static public final Character dim124_mon13 = new Character("MAMEMON","degimon_name_dim124_mon13","dim124_mon13",2,3,4400, 4400, 5500.0f,1540.0f);
+    static public final Character dim124_mon14 = new Character("MONZAEMON","degimon_name_dim124_mon14","dim124_mon14",2,1,4500, 4500, 5700.0f,1510.0f);
+    static public final Character dim124_mon22 = new Character("BOUTMON","degimon_name_dim124_mon22","dim124_mon22",2,1,4500, 4500, 5230.0f,1600.0f);
+    //Gammamon
+    static public final Character dim125_mon08 = new Character("CANOWEISSMON","degimon_name_dim125_mon08","dim125_mon08",2,1,4500, 4500, 5600.0f,1550.0f);
+    static public final Character dim125_mon09 = new Character("FUMAMON","degimon_name_dim125_mon09","dim125_mon09",2,3,4500, 4500, 5800.0f,1450.0f);
+    static public final Character dim125_mon10 = new Character("GHILLIEDHUMON","degimon_name_dim125_mon10","dim125_mon10",2,3,3500, 3500, 6000.0f,1610.0f);
+    static public final Character dim125_mon11 = new Character("BOMBERMON","degimon_name_dim125_mon11","dim125_mon11",2,2,4500, 4500, 5100.0f,1600.0f);
+    static public final Character dim125_mon12 = new Character("ZANMETSUMON","degimon_name_dim125_mon12","dim125_mon12",2,2,4300, 4300, 5800.0f,1550.0f);
+    static public final Character dim125_mon13 = new Character("REGULUSMON","degimon_name_dim125_mon13","dim125_mon13",2,2,4000, 4000, 5700.0f,1610.0f);
+    static public final Character dim125_mon21 = new Character("MYOTISMON","degimon_name_dim125_mon21","dim125_mon21",2,2,4800, 4800, 5900.0f,1450.0f);
+    //Imperialdramon
+    static public final Character dim128_mon05 = new Character("PAILDRAMON","degimon_name_dim128_mon05","dim128_mon05",2,4,4800, 4800, 5500.0f,1450.0f);
+    static public final Character dim128_mon11 = new Character("DINOBEEMON","degimon_name_dim128_mon11","dim128_mon11",2,4,4900, 4900, 5900.0f,1300.0f);
+    //Angoramon
+    static public final Character dim126_mon08 = new Character("LAMORTMON","degimon_name_dim126_mon08","dim126_mon08",2,1,4600, 4600, 5800.0f,1550.0f);
+    static public final Character dim126_mon09 = new Character("CERBERUSMON","degimon_name_dim126_mon09","dim126_mon09",2,1,4500, 4500, 5700.0f,1500.0f);
+    static public final Character dim126_mon10 = new Character("HIPPOGRYPHONMON","degimon_name_dim126_mon10","dim126_mon10",2,3,4200, 4200, 6000.0f,1500.0f);
+    static public final Character dim126_mon11 = new Character("DIGITAMAMON","degimon_name_dim126_mon11","dim126_mon11",2,3,4200, 4200, 5300.0f,1610.0f);
+    static public final Character dim126_mon12 = new Character("MATADORMON","degimon_name_dim126_mon12","dim126_mon12",2,2,4600, 4600, 6200.0f,1550.0f);
+    static public final Character dim126_mon13 = new Character("MEPHISTOMON","degimon_name_dim126_mon13","dim126_mon13",2,2,4200, 4200, 5800.0f,1610.0f);
+    static public final Character dim126_mon20 = new Character("FERESMON","degimon_name_dim126_mon20","dim126_mon20",2,2,4200, 4200, 6000.0f,1550.0f);
+    static public final Character dim126_mon21 = new Character("OLEAMON","degimon_name_dim126_mon21","dim126_mon21",2,2,4800, 4800, 5550.0f,1500.0f);
+    static public final Character dim126_mon22 = new Character("BASTEMON","degimon_name_dim126_mon22","dim126_mon22",2,2,4600, 4600, 5800.0f,1400.0f);
+    //Jellymon
+    static public final Character dim127_mon08 = new Character("ZUDOMON","degimon_name_dim127_mon08","dim127_mon08",2,1,4500, 4500, 5300.0f,1610.0f);
+    static public final Character dim127_mon09 = new Character("MARINKIMERAMON","degimon_name_dim127_mon09","dim127_mon09",2,1,4000, 4000, 5600.0f,1610.0f);
+    static public final Character dim127_mon10 = new Character("THETISMON","degimon_name_dim127_mon10","dim127_mon10",2,3,4200, 4200, 6000.0f,1600.0f);
+    static public final Character dim127_mon11 = new Character("SCORPIOMON (X-ANTIBODY)","degimon_name_dim127_mon11","dim127_mon11",2,3,4600, 4600, 6200.0f,1500.0f);
+    static public final Character dim127_mon12 = new Character("WARUSEADRAMON","degimon_name_dim127_mon12","dim127_mon12",2,2,4300, 4300, 5300.0f,1500.0f);
+    static public final Character dim127_mon13 = new Character("BLACKKINGNUMEMON","degimon_name_dim127_mon13","dim127_mon13",2,2,3500, 3500, 5100.0f,1400.0f);
+    static public final Character dim127_mon21 = new Character("MAJIRAMON","degimon_name_dim127_mon21","dim127_mon21",2,3,4800, 4800, 5600.0f,1500.0f);
+    static public final Character dim127_mon22 = new Character("TOROPIAMON","degimon_name_dim127_mon22","dim127_mon22",2,2,4200, 4200, 5800.0f,1610.0f);
+    //Draconic Blaze
+    static public final Character dim129_mon10 = new Character("RIZEGREYMON","degimon_name_dim129_mon10","dim129_mon10",2,1,4600, 4600, 4000.0f,1550.0f);
+    static public final Character dim129_mon11 = new Character("WINGDRAMON","degimon_name_dim129_mon11","dim129_mon11",2,1,4000, 4000, 6200.0f,1500.0f);
+    static public final Character dim129_mon12 = new Character("SAVIORHUCKMON","degimon_name_dim129_mon12","dim129_mon12",2,3,4600, 4600, 5800.0f,1600.0f);
+    static public final Character dim129_mon13 = new Character("GROUNDRAMON","degimon_name_dim129_mon13","dim129_mon13",2,2,4600, 4600, 3800.0f,1580.0f);
+    static public final Character dim129_mon22 = new Character("ARRESTERDRAMON: SUPERIOR MODE","degimon_name_dim129_mon22","dim129_mon22",2,1,4400, 4400, 6100.0f,1550.0f);
+    //Rampage of the Beast
+    static public final Character dim130_mon10 = new Character("MACHGAOGAMON","degimon_name_dim130_mon10","dim130_mon10",2,3,3100, 3100, 8000.0f,1500.0f);
+    static public final Character dim130_mon11 = new Character("FLAREMON","degimon_name_dim130_mon11","dim130_mon11",2,1,4400, 4400, 5300.0f,1600.0f);
+    static public final Character dim130_mon12 = new Character("CRESCEMON","degimon_name_dim130_mon12","dim130_mon12",2,3,4400, 4400, 7500.0f,1450.0f);
+    static public final Character dim130_mon13 = new Character("GRAPLEOMON","degimon_name_dim130_mon13","dim130_mon13",2,1,4300, 4300, 5700.0f,1550.0f);
+    static public final Character dim130_mon22 = new Character("ASTAMON","degimon_name_dim130_mon22","dim130_mon22",2,2,4100, 4100, 6200.0f,1500.0f);
+    //Loogamon
+    static public final Character dim131_mon09 = new Character("SOLOOGARMON","degimon_name_dim131_mon09","dim131_mon09",2,2,4300, 4300, 6200.0f,1550.0f);
+    static public final Character dim131_mon10 = new Character("STEFILMON","degimon_name_dim131_mon10","dim131_mon10",2,3,4600, 4600, 5600.0f,1500.0f);
+    static public final Character dim131_mon11 = new Character("HELLOOGARMON","degimon_name_dim131_mon11","dim131_mon11",2,2,4000, 4000, 4800.0f,1600.0f);
+    static public final Character dim131_mon12 = new Character("ANDROMON","degimon_name_dim131_mon12","dim131_mon12",2,1,3900, 3900, 5000.0f,1450.0f);
+    static public final Character dim131_mon13 = new Character("MASTERTYRANNOMON","degimon_name_dim131_mon13","dim131_mon13",2,1,4200, 4200, 4900.0f,1500.0f);
+    static public final Character dim131_mon22 = new Character("DESTROMON","degimon_name_dim131_mon22","dim131_mon22",2,4,4300, 4300, 5700.0f,1500.0f);
+    //Holy Wing
+    static public final Character dim132_mon10 = new Character("GARUDAMON","degimon_name_dim132_mon10","dim132_mon10",2,1,4200, 4200, 5900.0f,1450.0f);
+    static public final Character dim132_mon11 = new Character("ARKHAIANGEMON","degimon_name_dim132_mon11","dim132_mon11",2,1,4250, 4250, 6100.0f,1400.0f);
+    static public final Character dim132_mon12 = new Character("CROWMON (2006 ANIME VERSION)","degimon_name_dim132_mon12","dim132_mon12",2,1,3900, 3900, 6200.0f,1400.0f);
+    static public final Character dim132_mon13 = new Character("HUANKUNMON","degimon_name_dim132_mon13","dim132_mon13",2,1,4500, 4500, 5400.0f,1550.0f);
+    static public final Character dim132_mon22 = new Character("JAZARICHMON","degimon_name_dim132_mon22","dim132_mon22",2,3,4200, 4200, 6000.0f,1600.0f);
+    //Forest Guardian
+    static public final Character dim133_mon10 = new Character("MEGAKABUTERIMON (RED)","degimon_name_dim133_mon10","dim133_mon10",2,1,4700, 4700, 5300.0f,1500.0f);
+    static public final Character dim133_mon11 = new Character("LILAMON","degimon_name_dim133_mon11","dim133_mon11",2,3,4300, 4300, 6000.0f,1600.0f);
+    static public final Character dim133_mon12 = new Character("CANNONBEEMON","degimon_name_dim133_mon12","dim133_mon12",2,2,4500, 4500, 5400.0f,1550.0f);
+    static public final Character dim133_mon13 = new Character("OKUWAMON","degimon_name_dim133_mon13","dim133_mon13",2,2,4500, 4500, 5100.0f,1450.0f);
+    static public final Character dim133_mon22 = new Character("EOSMON","degimon_name_dim133_mon22","dim133_mon22",2,4,4500, 4500, 6000.0f,1500.0f);
+    //Ryudamon
+    static public final Character dim136_mon09 = new Character("HISYARYUMON","degimon_name_dim136_mon09","dim136_mon09",2,1,4500, 4500, 6500.0f,1500.0f);
+    static public final Character dim136_mon10 = new Character("CARGODRAMON","degimon_name_dim136_mon10","dim136_mon10",2,2,5000, 5000, 5500.0f,1400.0f);
+    static public final Character dim136_mon11 = new Character("OROCHIMON","degimon_name_dim136_mon11","dim136_mon11",2,2,4700, 4700, 4700.0f,1450.0f);
+    static public final Character dim136_mon12 = new Character("MONZAEMON","degimon_name_dim136_mon12","dim136_mon12",2,1,4000, 4000, 5100.0f,1400.0f);
+    static public final Character dim136_mon13 = new Character("ETEMON","degimon_name_dim136_mon13","dim136_mon13",2,2,4300, 4300, 4950.0f,1300.0f);
+    static public final Character dim136_mon21 = new Character("TANKDRAMON","degimon_name_dim136_mon21","dim136_mon21",2,2,4800, 4800, 5900.0f,1600.0f);
+    //Dorumon
+    static public final Character dim137_mon09 = new Character("DORUGREYMON","degimon_name_dim137_mon09","dim137_mon09",2,3,5000, 5000, 6400.0f,1400.0f);
+    static public final Character dim137_mon10 = new Character("DEXDORUGREYMON","degimon_name_dim137_mon10","dim137_mon10",2,2,4400, 4400, 5400.0f,1550.0f);
+    static public final Character dim137_mon11 = new Character("METALTYRANNOMON","degimon_name_dim137_mon11","dim137_mon11",2,2,4500, 4500, 4900.0f,1400.0f);
+    static public final Character dim137_mon12 = new Character("MEGADRAMON","degimon_name_dim137_mon12","dim137_mon12",2,2,4300, 4300, 4900.0f,1350.0f);
+    static public final Character dim137_mon13 = new Character("GIGADRAMON","degimon_name_dim137_mon13","dim137_mon13",2,2,4250, 4250, 4800.0f,1250.0f);
+    static public final Character dim137_mon21 = new Character("GRADEMON","degimon_name_dim137_mon21","dim137_mon21",2,1,4700, 4700, 6000.0f,1650.0f);
+    //D-3 White and Yellow
+    static public final Character dim134_mon14 = new Character("SHAKKOUMON","degimon_name_dim134_mon14","dim134_mon14",2,4,5000, 5000, 5900.0f,1580.0f);
+    static public final Character dim134_mon15 = new Character("MAGNAANGEMON","degimon_name_dim134_mon15","dim134_mon15",2,1,4000, 4000, 6000.0f,1400.0f);
+    static public final Character dim134_mon16 = new Character("PAILDRAMON","degimon_name_dim134_mon16","dim134_mon16",2,4,4800, 4800, 5500.0f,1450.0f);
+    static public final Character dim134_mon21 = new Character("ARUKENIMON","degimon_name_dim134_mon21","dim134_mon21",2,2,4800, 4800, 5600.0f,1400.0f);
+    //D-3 White and Red
+    static public final Character dim135_mon12 = new Character("SILPHYMON","degimon_name_dim135_mon12","dim135_mon12",2,4,4800, 4800, 6200.0f,1500.0f);
+    static public final Character dim135_mon13 = new Character("ANGEWOMON","degimon_name_dim135_mon13","dim135_mon13",2,1,3900, 3900, 6000.0f,1350.0f);
+    static public final Character dim135_mon14 = new Character("DINOBEEMON","degimon_name_dim135_mon14","dim135_mon14",2,4,4900, 4900, 5900.0f,1300.0f);
+    static public final Character dim135_mon20 = new Character("MUMMYMON","degimon_name_dim135_mon20","dim135_mon20",2,2,4900, 4900, 5600.0f,1450.0f);
+    static public final Character dim135_mon21 = new Character("KIMERAMON","degimon_name_dim135_mon21","dim135_mon21",2,3,5100, 5100, 6100.0f,1700.0f);
+    //Pulsemon
+    static public final Character dim138_mon10 = new Character("BOUTMON","degimon_name_dim138_mon10","dim138_mon10",2,1,4500, 4500, 5230.0f,1600.0f);
+    static public final Character dim138_mon11 = new Character("CHIRINMON","degimon_name_dim138_mon11","dim138_mon11",2,1,4200, 4200, 5400.0f,1500.0f);
+    static public final Character dim138_mon12 = new Character("GIROMON","degimon_name_dim138_mon12","dim138_mon12",2,1,4400, 4400, 5000.0f,1450.0f);
+    static public final Character dim138_mon13 = new Character("KYUKIMON","degimon_name_dim138_mon13","dim138_mon13",2,2,3900, 3900, 5100.0f,1450.0f);
+    static public final Character dim138_mon14 = new Character("METALLIFEKUWAGAMON","degimon_name_dim138_mon14","dim138_mon14",2,2,4000, 4000, 4800.0f,1400.0f);
+    static public final Character dim138_mon21 = new Character("OMEGASHOUTMON","degimon_name_dim138_mon21","dim138_mon21",2,3,4900, 4900, 5900.0f,1700.0f);
+
+    static public ArrayList<Character> ultimateArray = new ArrayList<Character>();
+}
