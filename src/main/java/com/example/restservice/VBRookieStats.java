@@ -19,9 +19,7 @@ public class VBRookieStats {
     // 4 Free
 
     //Digimon server-side stat references.
-    //Rookie
-
-    //VB Rookie Characters (Phase 3) - Systematically verified from CharacterData.json (ipId=1 only)
+    //VB Rookie Characters (Phase 3) - (ipId=1 only)
 
     //DIM CHARACTERS
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -103,7 +101,7 @@ public class VBRookieStats {
     //Espimon
     static public final Character dim035_mon03 = new Character("LUDOMON","degimon_name_Dim035_005","dim035_mon03",0,3,1800, 1800, 2400.0f,700.0f);
     static public final Character dim035_mon04 = new Character("ESPIMON","degimon_name_Dim035_006","dim035_mon04",0,2,1800, 1800, 2400.0f,700.0f);
-    //Strabimon
+    //Wolfmon EX
     static public final Character dim036_mon03 = new Character("STRABIMON","degimon_name_Dim036_005","dim036_mon03",0,4,1800, 1800, 2400.0f,700.0f);
     static public final Character dim036_mon04 = new Character("GIZAMON","degimon_name_Dim036_006","dim036_mon04",0,2,1800, 1800, 2400.0f,700.0f);
     //Blitzmon EX
