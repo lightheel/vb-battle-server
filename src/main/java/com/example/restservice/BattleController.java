@@ -67,34 +67,34 @@ public class BattleController {
 
     Character findPlayerDigi(int stage, String name){
         if (stage == 0) {
-            for (int i = 0; i < RookieStats.rookieArray.size(); i++) {
-                if (RookieStats.rookieArray.get(i).getName().matches(name)) {
+            for (int i = 0; i < VBRookieStats.rookieArray.size(); i++) {
+                if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
                     //System.out.println("found player: " + RookieStats.rookieArray.get(i).getName());
-                    return RookieStats.rookieArray.get(i);
+                    return VBRookieStats.rookieArray.get(i);
                 }
             }
         }
         else if (stage == 1) {
-            for (int i = 0; i < ChampionStats.championArray.size(); i++) {
-                if (ChampionStats.championArray.get(i).getName().matches(name)) {
-                    //System.out.println("found player: " + ChampionStats.championArray.get(i).getName());
-                    return ChampionStats.championArray.get(i);
+            for (int i = 0; i < VBChampionStats.championArray.size(); i++) {
+                if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                    //System.out.println("found player: " + VBChampionStats.championArray.get(i).getName());
+                    return VBChampionStats.championArray.get(i);
                 }
             }
         }
         else if (stage == 2) {
-            for (int i = 0; i < UltimateStats.ultimateArray.size(); i++) {
-                if (UltimateStats.ultimateArray.get(i).getName().matches(name)) {
-                    //System.out.println("found player: " + UltimateStats.ultimateArray.get(i).getName());
-                    return UltimateStats.ultimateArray.get(i);
+            for (int i = 0; i < VBUltimateStats.ultimateArray.size(); i++) {
+                if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                    //System.out.println("found player: " + VBUltimateStats.ultimateArray.get(i).getName());
+                    return VBUltimateStats.ultimateArray.get(i);
                 }
             }
         }
         else if (stage == 3) {
-            for (int i = 0; i < MegaStats.megaArray.size(); i++) {
-                if (MegaStats.megaArray.get(i).getName().matches(name)) {
-                    //System.out.println("found player: " + MegaStats.megaArray.get(i).getName());
-                    return MegaStats.megaArray.get(i);
+            for (int i = 0; i < VBMegaStats.megaArray.size(); i++) {
+                if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                    //System.out.println("found player: " + VBMegaStats.megaArray.get(i).getName());
+                    return VBMegaStats.megaArray.get(i);
                 }
             }
         }
@@ -103,34 +103,34 @@ public class BattleController {
     }
     Character findOpponentDigi(int stage, String name){
         if (stage == 0) {
-            for (int i = 0; i < RookieStats.rookieArray.size(); i++) {
-                if (RookieStats.rookieArray.get(i).getName().matches(name)) {
-                    //System.out.println("found opponent: " + RookieStats.rookieArray.get(i).getName());
-                    return RookieStats.rookieArray.get(i);
+            for (int i = 0; i < VBRookieStats.rookieArray.size(); i++) {
+                if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                    //System.out.println("found opponent: " + VBRookieStats.rookieArray.get(i).getName());
+                    return VBRookieStats.rookieArray.get(i);
                 }
             }
         }
         else if (stage == 1) {
-            for (int i = 0; i < ChampionStats.championArray.size(); i++) {
-                if (ChampionStats.championArray.get(i).getName().matches(name)) {
-                    //System.out.println("found opponent: " + ChampionStats.championArray.get(i).getName());
-                    return ChampionStats.championArray.get(i);
+            for (int i = 0; i < VBChampionStats.championArray.size(); i++) {
+                if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                    //System.out.println("found opponent: " + VBChampionStats.championArray.get(i).getName());
+                    return VBChampionStats.championArray.get(i);
                 }
             }
         }
         else if (stage == 2) {
-            for (int i = 0; i < UltimateStats.ultimateArray.size(); i++) {
-                if (UltimateStats.ultimateArray.get(i).getName().matches(name)) {
-                    //System.out.println("found opponent: " + UltimateStats.ultimateArray.get(i).getName());
-                    return UltimateStats.ultimateArray.get(i);
+            for (int i = 0; i < VBUltimateStats.ultimateArray.size(); i++) {
+                if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                    //System.out.println("found opponent: " + VBUltimateStats.ultimateArray.get(i).getName());
+                    return VBUltimateStats.ultimateArray.get(i);
                 }
             }
         }
         else if (stage == 3) {
-            for (int i = 0; i < MegaStats.megaArray.size(); i++) {
-                if (MegaStats.megaArray.get(i).getName().matches(name)) {
-                    //System.out.println("found opponent: " + MegaStats.megaArray.get(i).getName());
-                    return MegaStats.megaArray.get(i);
+            for (int i = 0; i < VBMegaStats.megaArray.size(); i++) {
+                if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                    //System.out.println("found opponent: " + VBMegaStats.megaArray.get(i).getName());
+                    return VBMegaStats.megaArray.get(i);
                 }
             }
         }

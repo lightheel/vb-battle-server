@@ -83,20 +83,20 @@ public class CombatController {
 
         switch (stage){
             case 0:
-                characterArray.add(RookieStats.agumon);
-                characterArray.add(RookieStats.pulsemon);
+                characterArray.add(VBRookieStats.dim012_mon03); //agumon from agumon EX
+                characterArray.add(VBRookieStats.dim000_mon03); //pulsemon from impulse city
                 return characterArray;
             case 1:
-                characterArray.add(ChampionStats.greymon);
-                characterArray.add(ChampionStats.betelGammamon);
+                characterArray.add(VBChampionStats.dim012_mon04); //greymon from agumon EX
+                characterArray.add(VBChampionStats.dim023_mon04); //betelgammamon from gammamon
                 return characterArray;
             case 2:
-                characterArray.add(UltimateStats.doruguremon);
-                characterArray.add(UltimateStats.metalGreymon);
+                characterArray.add(VBUltimateStats.dim137_mon09); //dorugreymon from dorumon
+                characterArray.add(VBUltimateStats.dim012_mon08); //metal greymon (vaccine) from agumon EX
                 return characterArray;
             case 3:
-                characterArray.add(MegaStats.machinedramon);
-                characterArray.add(MegaStats.dorugoramon);
+                characterArray.add(VBMegaStats.dim137_mon18); //machinedramon from dorumon
+                characterArray.add(VBMegaStats.dim137_mon14); //dorugoramon from dorumon
                 return characterArray;
             default:
                 return characterArray;

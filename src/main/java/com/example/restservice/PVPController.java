@@ -113,67 +113,67 @@ public class PVPController {
 
     Character findPlayerDigi(int stage, String name) {
         if (stage == 0) {
-            for (int i = 0; i < RookieStats.rookieArray.size(); i++) {
-                if (RookieStats.rookieArray.get(i).getName().matches(name)) {
-                    return RookieStats.rookieArray.get(i);
+            for (int i = 0; i < VBRookieStats.rookieArray.size(); i++) {
+                if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                    return VBRookieStats.rookieArray.get(i);
                 }
             }
         }
         else if (stage == 1) {
-            for (int i = 0; i < ChampionStats.championArray.size(); i++) {
-                if (ChampionStats.championArray.get(i).getName().matches(name)) {
-                    return ChampionStats.championArray.get(i);
+            for (int i = 0; i < VBChampionStats.championArray.size(); i++) {
+                if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                    return VBChampionStats.championArray.get(i);
                 }
             }
         }
         else if (stage == 2) {
-            for (int i = 0; i < UltimateStats.ultimateArray.size(); i++) {
-                if (UltimateStats.ultimateArray.get(i).getName().matches(name)) {
-                    return UltimateStats.ultimateArray.get(i);
+            for (int i = 0; i < VBUltimateStats.ultimateArray.size(); i++) {
+                if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                    return VBUltimateStats.ultimateArray.get(i);
                 }
             }
         }
         else if (stage == 3) {
-            for (int i = 0; i < MegaStats.megaArray.size(); i++) {
-                if (MegaStats.megaArray.get(i).getName().matches(name)) {
-                    return MegaStats.megaArray.get(i);
+            for (int i = 0; i < VBMegaStats.megaArray.size(); i++) {
+                if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                    return VBMegaStats.megaArray.get(i);
                 }
             }
         }
 
-        return new Character("", 0, 0, 0, 0, 0 ,0);
+        return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
     Character findOpponentDigi(int stage, String name){
         if (stage == 0) {
-            for (int i = 0; i < RookieStats.rookieArray.size(); i++) {
-                if (RookieStats.rookieArray.get(i).getName().matches(name)) {
-                    return RookieStats.rookieArray.get(i);
+            for (int i = 0; i < VBRookieStats.rookieArray.size(); i++) {
+                if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                    return VBRookieStats.rookieArray.get(i);
                 }
             }
         }
         else if (stage == 1) {
-            for (int i = 0; i < ChampionStats.championArray.size(); i++) {
-                if (ChampionStats.championArray.get(i).getName().matches(name)) {
-                    return ChampionStats.championArray.get(i);
+            for (int i = 0; i < VBChampionStats.championArray.size(); i++) {
+                if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                    return VBChampionStats.championArray.get(i);
                 }
             }
         }
         else if (stage == 2) {
-            for (int i = 0; i < UltimateStats.ultimateArray.size(); i++) {
-                if (UltimateStats.ultimateArray.get(i).getName().matches(name)) {
-                    return UltimateStats.ultimateArray.get(i);
+            for (int i = 0; i < VBUltimateStats.ultimateArray.size(); i++) {
+                if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                    return VBUltimateStats.ultimateArray.get(i);
                 }
             }
         }
         else if (stage == 3) {
-            for (int i = 0; i < MegaStats.megaArray.size(); i++) {
-                if (MegaStats.megaArray.get(i).getName().matches(name)) {
-                    return MegaStats.megaArray.get(i);
+            for (int i = 0; i < VBMegaStats.megaArray.size(); i++) {
+                if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                    return VBMegaStats.megaArray.get(i);
                 }
             }
         }
 
-        return new Character("", 0, 0, 0, 0, 0 ,0);
+        return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
 
     Dictionary<String, pvpInstance> combatDictionary;
