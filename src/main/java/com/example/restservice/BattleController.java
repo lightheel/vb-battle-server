@@ -99,7 +99,7 @@ public class BattleController {
             }
         }
         //System.out.println("found no player char");
-        return new Character("", 0, 0, 0, 0, 0 ,0);
+        return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
     Character findOpponentDigi(int stage, String name){
         if (stage == 0) {
@@ -136,7 +136,7 @@ public class BattleController {
         }
 
         //System.out.println("found no opponent char");
-        return new Character("", 0, 0, 0, 0, 0 ,0);
+        return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
 
     //Uses stage parameter from incoming Get request to lookup correct Digimon for combat
