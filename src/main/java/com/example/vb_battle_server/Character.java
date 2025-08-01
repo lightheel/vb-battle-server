@@ -22,4 +22,26 @@ public class Character {
         this.baseBp = baseBp;
         this.baseAp = baseAp;
     }
+
+    // Getter methods
+    public String getName() { return name; }
+    public String getNamekey() { return namekey; }
+    public String getCharaId() { return charaId; }
+    public int getStage() { return stage; }
+    public int getAttribute() { return attribute; }
+    public int getBaseHp() { return baseHp; }
+    public int getCurrentHp() { return currentHp; }
+    public float getBaseBp() { return baseBp; }
+    public float getBaseAp() { return baseAp; }
+
+    // Setter methods
+    public void setName(String name) { this.name = name; }
+    public void setNamekey(String namekey) { this.namekey = namekey; }
+    public void setCharaId(String charaId) { this.charaId = charaId; }
+    public void setStage(int stage) { this.stage = stage; }
+    public void setAttribute(int attribute) { this.attribute = attribute; }
+    public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
+    public void setCurrentHp(int currentHp) { this.currentHp = currentHp; }
+    public void setBaseBp(float baseBp) { this.baseBp = baseBp; }
+    public void setBaseAp(float baseAp) { this.baseAp = baseAp; }
 } 
