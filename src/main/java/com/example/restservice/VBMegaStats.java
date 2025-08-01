@@ -4,7 +4,7 @@ import com.example.vb_battle_server.Character;
 
 import java.util.ArrayList;
 
-public class MegaStats {
+public class VBMegaStats {
 
     //Stages
     // 0 Rookie
