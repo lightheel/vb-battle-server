@@ -10,28 +10,28 @@ public class RestServiceApplication {
         SpringApplication.run(RestServiceApplication.class, args);
 
         //Setup server references for Digi stats
-        RookieStats.rookieArray.add(RookieStats.agumon);
-        RookieStats.rookieArray.add(RookieStats.dracomon);
-        RookieStats.rookieArray.add(RookieStats.hackmon);
-        RookieStats.rookieArray.add(RookieStats.pulsemon);
-        RookieStats.rookieArray.add(RookieStats.dorumon);
+        VBRookieStats.rookieArray.add(VBRookieStats.dim012_mon03); //agumon from agumon EX
+        VBRookieStats.rookieArray.add(VBRookieStats.dim129_mon04); //dracomon from draconic blaze
+        VBRookieStats.rookieArray.add(VBRookieStats.dim129_mon05); //huckmon from draconic blaze
+        VBRookieStats.rookieArray.add(VBRookieStats.dim000_mon03); //pulsemon from impulse city
+        VBRookieStats.rookieArray.add(VBRookieStats.dim137_mon03); //dorumon from dorumon
 
-        ChampionStats.championArray.add(ChampionStats.coredramon_blue);
-        ChampionStats.championArray.add(ChampionStats.baoHackmon);
-        ChampionStats.championArray.add(ChampionStats.dorugamon);
-        ChampionStats.championArray.add(ChampionStats.betelGammamon);
-        ChampionStats.championArray.add(ChampionStats.greymon);
+        VBChampionStats.championArray.add(VBChampionStats.dim129_mon07); //coredramon blue from draconic blaze
+        VBChampionStats.championArray.add(VBChampionStats.dim129_mon08); //bao hackmon from draconic blaze
+        VBChampionStats.championArray.add(VBChampionStats.dim137_mon05); //dorugamon from dorumon
+        VBChampionStats.championArray.add(VBChampionStats.dim023_mon04); //betelgammamon from gammamon
+        VBChampionStats.championArray.add(VBChampionStats.dim012_mon04); //greymon from agumon EX
 
-        UltimateStats.ultimateArray.add(UltimateStats.wingdramon);
-        UltimateStats.ultimateArray.add(UltimateStats.saviorHackmon);
-        UltimateStats.ultimateArray.add(UltimateStats.doruguremon);
-        UltimateStats.ultimateArray.add(UltimateStats.metalGreymon);
+        VBUltimateStats.ultimateArray.add(VBUltimateStats.dim129_mon11); //wingdramon from draconic blaze
+        VBUltimateStats.ultimateArray.add(VBUltimateStats.dim129_mon12); //savior huckmon from draconic blaze
+        VBUltimateStats.ultimateArray.add(VBUltimateStats.dim137_mon09); //dorugreymon from dorumon
+        VBUltimateStats.ultimateArray.add(VBUltimateStats.dim012_mon08); //metal greymon (vaccine) from agumon EX
 
-        MegaStats.megaArray.add(MegaStats.slayerdramon);
-        MegaStats.megaArray.add(MegaStats.jesmon);
-        MegaStats.megaArray.add(MegaStats.breakdramon);
-        MegaStats.megaArray.add(MegaStats.dorugoramon);
-        MegaStats.megaArray.add(MegaStats.machinedramon);
+        VBMegaStats.megaArray.add(VBMegaStats.dim129_mon15); //slayerdramon from draconic blaze
+        VBMegaStats.megaArray.add(VBMegaStats.dim129_mon16); //jesmon from draconic blaze
+        VBMegaStats.megaArray.add(VBMegaStats.dim129_mon17); //breakdramon from draconic blaze
+        VBMegaStats.megaArray.add(VBMegaStats.dim137_mon14); //dorugoramon from dorumon
+        VBMegaStats.megaArray.add(VBMegaStats.dim137_mon18); //machinedramon from dorumon
     }
 
 }
