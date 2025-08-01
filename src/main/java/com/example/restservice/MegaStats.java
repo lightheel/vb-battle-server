@@ -1,3 +1,4 @@
+/*
 package com.example.restservice;
 
 import com.example.vb_battle_server.Character;
@@ -101,3 +102,4 @@ public class MegaStats {
     static public final Character banchoMamemon = new Character("Bancho Mamemon",3,2,4900, 4900, 5800,1900);
     static public ArrayList<Character> megaArray = new ArrayList<Character>();
 }
+*/

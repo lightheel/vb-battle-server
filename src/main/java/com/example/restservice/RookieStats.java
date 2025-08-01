@@ -1,3 +1,4 @@
+/*
 package com.example.restservice;
 
 import com.example.vb_battle_server.Character;
@@ -64,3 +65,4 @@ public class RookieStats {
     static public final Character betamon = new Character("Betamon",0,1,3000, 3000, 3900,900);
     static public ArrayList<Character> rookieArray = new ArrayList<Character>();
 }
+*/
