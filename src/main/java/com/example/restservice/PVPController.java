@@ -200,7 +200,7 @@ public class PVPController {
     @GetMapping("api/pvp")
     public PVP pvp(@RequestParam(value = "apiStage") int apiStage, @RequestParam(value = "playerID") String playerID, @RequestParam(value = "playerDigi") String playerDigi, @RequestParam(value = "playerStage") int playerStage, @RequestParam(value = "critBar") float critBar, @RequestParam(value = "opponentDigi") String opponentDigi, @RequestParam(value = "opponentStage") int opponentStage) {
 
-        System.out.println("api stage: " + apiStage);
+        //System.out.println("api stage: " + apiStage);
 
         switch (apiStage) {
             //Match setup stage
@@ -209,6 +209,7 @@ public class PVPController {
                 Character tempOpponent = findOpponentDigi(opponentStage, opponentDigi);
 
                 if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
+                    System.out.println("Match Number: " + msgID + " Match setup for player ID: " + playerID);
                     return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1,"");
                 }
                 else {
@@ -220,11 +221,12 @@ public class PVPController {
                 if (combatDictionary != null) {
                     if (combatDictionary.get(playerID) != null) {
                         if (combatDictionary.get(playerID).isCombatComplete()) {
-                            System.out.println("Message ID: " + msgID++ + " Match over. Winner is: " + combatDictionary.get(playerID).getWinner().getName());
+                            System.out.println("Match Number: " + msgID++ + " Match over. Winner is: " + combatDictionary.get(playerID).getWinner().getName());
                             return new PVP("Winner reported. Match over.", 2, combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(), false, -1, -1, combatDictionary.get(playerID).getWinner().getName());
                         }
                         else {
                             combatRoundWrapper tempCombatRound = combatDictionary.get(playerID).processCombatRound(critBar);
+                            System.out.println("Match Number: " + msgID + " Match processing. Player attack hit: " + tempCombatRound.playerAttackHit + " Player damage: " + tempCombatRound.playerCombatDamage + " Opponent damage: " + tempCombatRound.opponentCombatDamage);
                             return new PVP("Match processing.", 1, combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(), tempCombatRound.playerAttackHit, tempCombatRound.playerCombatDamage, tempCombatRound.opponentCombatDamage, "");
                         }
                     }
@@ -249,6 +251,7 @@ public class PVPController {
                             int finalOpponentHP = tempInstance.opponentCharacter.getCurrentHp();
                             combatDictionary.get(playerID).resetCombat();
                             combatDictionary.remove(playerID);
+                            System.out.println("Match Number: " + msgID + " Match over. Winner is: " + tempInstance.getWinner().getName());
                             return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP, false, -1, -1, tempInstance.getWinner().getName());
                         }
                         else {
