@@ -149,13 +149,17 @@ public class BattleController {
         Character winner = CombatLoop(tempPlayer, tempOpponent);
         switch(winner.getStage()){
             case 0:
-                OpponentsController.addRookie(winner);
+                VBRookieStats.rookieArray.add(winner);
+                break;
             case 1:
-                OpponentsController.addChampion(winner);
+                VBChampionStats.championArray.add(winner);
+                break;
             case 2:
-                OpponentsController.addUltimate(winner);
+                VBUltimateStats.ultimateArray.add(winner);
+                break;
             case 3:
-                OpponentsController.addMega(winner);
+                VBMegaStats.megaArray.add(winner);
+                break;
         }
         return new Combat(winner.getName(), round1, round2, round3, round4);
     }

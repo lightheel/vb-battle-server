@@ -112,30 +112,36 @@ public class PVPController {
     }
 
     Character findPlayerDigi(int stage, String name) {
+        System.out.println("searching for player char: " + name);
+
         if (stage == 0) {
             for (int i = 0; i < VBRookieStats.rookieArray.size(); i++) {
-                if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                //if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                if (VBRookieStats.rookieArray.get(i).getCharaId().matches(name)) {
                     return VBRookieStats.rookieArray.get(i);
                 }
             }
         }
         else if (stage == 1) {
             for (int i = 0; i < VBChampionStats.championArray.size(); i++) {
-                if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                //if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                if (VBChampionStats.championArray.get(i).getCharaId().matches(name)) {
                     return VBChampionStats.championArray.get(i);
                 }
             }
         }
         else if (stage == 2) {
             for (int i = 0; i < VBUltimateStats.ultimateArray.size(); i++) {
-                if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                //if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                if (VBUltimateStats.ultimateArray.get(i).getCharaId().matches(name)) {
                     return VBUltimateStats.ultimateArray.get(i);
                 }
             }
         }
         else if (stage == 3) {
             for (int i = 0; i < VBMegaStats.megaArray.size(); i++) {
-                if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                //if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                if (VBMegaStats.megaArray.get(i).getCharaId().matches(name)) {
                     return VBMegaStats.megaArray.get(i);
                 }
             }
@@ -143,31 +149,38 @@ public class PVPController {
 
         return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
+
     Character findOpponentDigi(int stage, String name){
+        System.out.println("searching for opponent char: " + name);
+
         if (stage == 0) {
             for (int i = 0; i < VBRookieStats.rookieArray.size(); i++) {
-                if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                //if (VBRookieStats.rookieArray.get(i).getName().matches(name)) {
+                if (VBRookieStats.rookieArray.get(i).getCharaId().matches(name)) {
                     return VBRookieStats.rookieArray.get(i);
                 }
             }
         }
         else if (stage == 1) {
             for (int i = 0; i < VBChampionStats.championArray.size(); i++) {
-                if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                //if (VBChampionStats.championArray.get(i).getName().matches(name)) {
+                if (VBChampionStats.championArray.get(i).getCharaId().matches(name)) {
                     return VBChampionStats.championArray.get(i);
                 }
             }
         }
         else if (stage == 2) {
             for (int i = 0; i < VBUltimateStats.ultimateArray.size(); i++) {
-                if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                //if (VBUltimateStats.ultimateArray.get(i).getName().matches(name)) {
+                if (VBUltimateStats.ultimateArray.get(i).getCharaId().matches(name)) {
                     return VBUltimateStats.ultimateArray.get(i);
                 }
             }
         }
         else if (stage == 3) {
             for (int i = 0; i < VBMegaStats.megaArray.size(); i++) {
-                if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                //if (VBMegaStats.megaArray.get(i).getName().matches(name)) {
+                if (VBMegaStats.megaArray.get(i).getCharaId().matches(name)) {
                     return VBMegaStats.megaArray.get(i);
                 }
             }
@@ -209,7 +222,7 @@ public class PVPController {
                 Character tempOpponent = findOpponentDigi(opponentStage, opponentDigi);
 
                 if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
-                    System.out.println("Match Number: " + msgID + " Match setup for player ID: " + playerID);
+                    System.out.println("Match ID: " + msgID + " - match setup for player ID: " + playerID + " - player char: " + tempPlayer.getName() + " - opponent char: " + tempOpponent.getName());
                     return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1,"");
                 }
                 else {
@@ -221,7 +234,7 @@ public class PVPController {
                 if (combatDictionary != null) {
                     if (combatDictionary.get(playerID) != null) {
                         if (combatDictionary.get(playerID).isCombatComplete()) {
-                            System.out.println("Match Number: " + msgID++ + " Match over. Winner is: " + combatDictionary.get(playerID).getWinner().getName());
+                            System.out.println("Match Number: " + msgID + " Match over. Winner is: " + combatDictionary.get(playerID).getWinner().getName());
                             return new PVP("Winner reported. Match over.", 2, combatDictionary.get(playerID).combatRound, combatDictionary.get(playerID).playerCharacter.getCurrentHp(), combatDictionary.get(playerID).opponentCharacter.getCurrentHp(), false, -1, -1, combatDictionary.get(playerID).getWinner().getName());
                         }
                         else {
@@ -252,6 +265,7 @@ public class PVPController {
                             combatDictionary.get(playerID).resetCombat();
                             combatDictionary.remove(playerID);
                             System.out.println("Match Number: " + msgID + " Match over. Winner is: " + tempInstance.getWinner().getName());
+                            msgID++;
                             return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP, false, -1, -1, tempInstance.getWinner().getName());
                         }
                         else {
