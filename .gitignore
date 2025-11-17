@@ -30,3 +30,7 @@ hs_err_pid*
 replay_pid*
 
 local.properties
+
+# Secrets file - contains sensitive authentication tokens
+secrets.properties
+config/secrets.properties
