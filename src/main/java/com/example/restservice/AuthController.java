@@ -20,10 +20,6 @@ public class AuthController {
             return null;
         }
         
-        // Log all keys in the map to see what the client is actually sending
-        System.out.println("DEBUG: Available fields in request map: " + rawMap.keySet());
-        System.out.println("DEBUG: Full request map contents: " + rawMap);
-        
         // Try different possible field names
         String[] possibleFieldNames = {"user_nonce", "userNonce", "user_token", "userToken", "token", "nonce"};
         for (String fieldName : possibleFieldNames) {
@@ -31,7 +27,6 @@ public class AuthController {
             if (value != null) {
                 String token = value.toString();
                 if (!token.isEmpty()) {
-                    System.out.println("Found token in field: " + fieldName + " = " + token);
                     return token;
                 }
             }
@@ -47,12 +42,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public AuthResponse login(@RequestBody Map<String, Object> rawRequest) {
-        System.out.println("=== Auth Login Request received ===");
-        System.out.println("Raw request map: " + rawRequest);
-        System.out.println("Request map keys: " + (rawRequest != null ? rawRequest.keySet() : "null"));
-        
         if (rawRequest == null || rawRequest.isEmpty()) {
-            System.out.println("ERROR: Request body is null or empty");
             return new AuthResponse(false, "Request body is required", null);
         }
         
@@ -60,16 +50,10 @@ public class AuthController {
         String token = extractTokenFromMap(rawRequest);
         
         if (token == null || token.isEmpty()) {
-            System.out.println("ERROR: User token is missing or empty");
-            System.out.println("Available fields were: " + rawRequest.keySet());
             return new AuthResponse(false, "User token is required. Expected field: user_nonce", null);
         }
         
-        System.out.println("Validating user token: " + token);
-        AuthResponse response = authService.validateUserToken(token);
-        System.out.println("Auth validation result - Success: " + response.success() + ", Message: " + response.message());
-        
-        return response;
+        return authService.validateUserToken(token);
     }
     
     /**
@@ -79,12 +63,7 @@ public class AuthController {
      */
     @PostMapping("/validate")
     public AuthResponse validate(@RequestBody Map<String, Object> rawRequest) {
-        System.out.println("=== Auth Validate Request received ===");
-        System.out.println("Raw request map: " + rawRequest);
-        System.out.println("Request map keys: " + (rawRequest != null ? rawRequest.keySet() : "null"));
-        
         if (rawRequest == null || rawRequest.isEmpty()) {
-            System.out.println("ERROR: Request body is null or empty");
             return new AuthResponse(false, "Request body is required", null);
         }
         
@@ -92,16 +71,10 @@ public class AuthController {
         String token = extractTokenFromMap(rawRequest);
         
         if (token == null || token.isEmpty()) {
-            System.out.println("ERROR: User token is missing or empty");
-            System.out.println("Available fields were: " + rawRequest.keySet());
             return new AuthResponse(false, "User token is required. Expected field: user_nonce", null);
         }
         
-        System.out.println("Validating user token: " + token);
-        AuthResponse response = authService.validateUserToken(token);
-        System.out.println("Auth validation result - Success: " + response.success() + ", Message: " + response.message());
-        
-        return response;
+        return authService.validateUserToken(token);
     }
 }
 
