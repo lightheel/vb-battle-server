@@ -2,10 +2,12 @@ package com.example.restservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 import java.util.ArrayList;
 import com.example.vb_battle_server.Character;
 
 @SpringBootApplication
+@PropertySource(value = {"file:./secrets.properties", "file:./config/secrets.properties"}, ignoreResourceNotFound = true)
 public class RestServiceApplication {
 
     public static void main(String[] args) {
