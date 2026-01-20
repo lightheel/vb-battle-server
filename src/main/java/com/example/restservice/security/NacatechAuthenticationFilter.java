@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Custom authentication filter that validates nacatech tokens from Authorization header
@@ -24,6 +25,27 @@ import java.io.IOException;
 public class NacatechAuthenticationFilter extends OncePerRequestFilter {
     
     private static final Logger logger = LoggerFactory.getLogger(NacatechAuthenticationFilter.class);
+    
+    // Common bot/scraper probe paths that don't have endpoints - skip authentication
+    private static final Set<String> BOT_PROBE_PATHS = Set.of(
+        "/",                    // Root path
+        "/favicon.ico",         // Browser favicon requests
+        "/robots.txt",          // Search engine crawler file
+        "/json",                // Common API probe path
+        "/json/",               // Common API probe path (with trailing slash)
+        "/api",                 // API root (no endpoint)
+        "/api/",                // API root with trailing slash
+        "/version",             // Version/info endpoint probe
+        "/info",                // Info endpoint probe
+        "/health",              // Health check probe
+        "/status",              // Status endpoint probe
+        "/wp-admin",            // WordPress admin probe
+        "/wp-admin/",           // WordPress admin probe (with trailing slash)
+        "/admin",               // Admin panel probe
+        "/admin/",              // Admin panel probe (with trailing slash)
+        "/.well-known",         // Well-known paths (Let's Encrypt, etc.)
+        "/.well-known/"         // Well-known paths with trailing slash
+    );
     
     private final AuthService authService;
     private final SessionTokenService sessionTokenService;
@@ -42,8 +64,8 @@ public class NacatechAuthenticationFilter extends OncePerRequestFilter {
         
         logger.debug("Authentication filter: {} {}", method, path);
         
-        // Skip authentication for auth endpoints and OPTIONS (CORS preflight)
-        if (path.startsWith("/api/auth") || "OPTIONS".equals(method)) {
+        // Skip authentication for auth endpoints, OPTIONS (CORS preflight), actuator endpoints, and common bot/scraper probe paths
+        if (path.startsWith("/api/auth") || "OPTIONS".equals(method) || path.startsWith("/actuator") || BOT_PROBE_PATHS.contains(path)) {
             logger.debug("Skipping authentication for: {} {}", method, path);
             filterChain.doFilter(request, response);
             return;
