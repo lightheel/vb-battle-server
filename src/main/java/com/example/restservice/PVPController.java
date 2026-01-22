@@ -299,7 +299,8 @@ public class PVPController {
             @RequestParam(value = "playerStage") @Min(0) @Max(3) int playerStage,
             @RequestParam(value = "critBar") @Min(0) @Max(100) float critBar,
             @RequestParam(value = "opponentDigi") @NotBlank String opponentDigi,
-            @RequestParam(value = "opponentStage") @Min(0) @Max(3) int opponentStage) {
+            @RequestParam(value = "opponentStage") @Min(0) @Max(3) int opponentStage,
+            @RequestParam(value = "action", required = false) String action) {
 
         // Optional: Verify authenticated user matches playerID if token was provided
         // This allows the endpoint to work with just playerID (original behavior)
@@ -323,14 +324,83 @@ public class PVPController {
                 Character tempPlayer = findPlayerDigi(playerStage, playerDigi);
                 Character tempOpponent = findOpponentDigi(opponentStage, opponentDigi);
 
+                // Check for existing match
+                pvpInstance existingMatch = combatDictionary.get(playerID);
+                if (existingMatch != null) {
+                    // Check if match is stale (>5 minutes inactive)
+                    Long lastActivity = combatTimestamps.get(playerID);
+                    boolean isStale = false;
+                    if (lastActivity != null) {
+                        long timeSinceLastActivity = System.currentTimeMillis() - lastActivity;
+                        if (timeSinceLastActivity > COMBAT_TIMEOUT_MS) {
+                            isStale = true;
+                            logger.debug("Existing match for player {} is stale (inactive for {}ms) - auto-cleaning", 
+                                playerID, timeSinceLastActivity);
+                            combatDictionary.remove(playerID);
+                            combatTimestamps.remove(playerID);
+                        }
+                    }
+                    
+                    // If stale, it's been cleaned up - proceed with new match
+                    if (isStale) {
+                        // Fall through to create new match
+                    } else {
+                        // Match exists and is not stale - handle action parameter
+                        if ("quit".equalsIgnoreCase(action)) {
+                            // User explicitly wants to quit existing match
+                            logger.debug("Player {} quitting existing match", playerID);
+                            combatDictionary.remove(playerID);
+                            combatTimestamps.remove(playerID);
+                            // Fall through to create new match
+                        } else if ("rejoin".equalsIgnoreCase(action)) {
+                            // User wants to resume existing match
+                            logger.debug("Player {} resuming existing match at round {}", playerID, existingMatch.combatRound);
+                            combatTimestamps.put(playerID, System.currentTimeMillis()); // Update activity timestamp
+                            // Encode character info in winner field: "playerCharaId|playerStage|opponentCharaId|opponentStage"
+                            String characterInfo = String.format("%s|%d|%s|%d", 
+                                existingMatch.playerCharacter.getCharaId(), 
+                                existingMatch.playerCharacter.getStage(),
+                                existingMatch.opponentCharacter.getCharaId(), 
+                                existingMatch.opponentCharacter.getStage());
+                            return new PVP("Match resumed.", existingMatch.combatRound, 
+                                existingMatch.combatRound, 
+                                existingMatch.playerCharacter.getCurrentHp(), 
+                                existingMatch.opponentCharacter.getCurrentHp(), 
+                                false, -1, -1, characterInfo);
+                        } else {
+                            // No action specified - inform client of existing match
+                            logger.debug("Player {} has existing match - prompting for action", playerID);
+                            // Encode character info in winner field: "playerCharaId|playerStage|opponentCharaId|opponentStage"
+                            String characterInfo = String.format("%s|%d|%s|%d", 
+                                existingMatch.playerCharacter.getCharaId(), 
+                                existingMatch.playerCharacter.getStage(),
+                                existingMatch.opponentCharacter.getCharaId(), 
+                                existingMatch.opponentCharacter.getStage());
+                            return new PVP("Existing match found. Use action=quit to abandon or action=rejoin to resume.", 
+                                existingMatch.combatRound, 
+                                existingMatch.combatRound, 
+                                existingMatch.playerCharacter.getCurrentHp(), 
+                                existingMatch.opponentCharacter.getCurrentHp(), 
+                                false, -1, -1, characterInfo);
+                        }
+                    }
+                }
+                
+                // No existing match (or it was cleaned up/quitted) - create new match
+                // Reset HP to base HP for new match (Character objects are shared from stats arrays,
+                // so we need to reset them in case they were modified in a previous match)
+                tempPlayer.setCurrentHp(tempPlayer.getBaseHp());
+                tempOpponent.setCurrentHp(tempOpponent.getBaseHp());
+                
                 if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
                     logger.debug("Match ID: {} - match setup for player ID: {} - player char: {} - opponent char: {}", 
                         msgID, playerID, tempPlayer.getName(), tempOpponent.getName());
                     return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1,"");
                 }
                 else {
-                    logger.debug("Player {} already in active match", playerID);
-                    return new PVP("Player already in active match. Nothing happens.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1, "");
+                    // This shouldn't happen, but handle edge case
+                    logger.warn("Unexpected: Player {} match creation failed after cleanup", playerID);
+                    return new PVP("Error: Could not create match. Please try again.", -1,-1, -1, -1, false, -1, -1, "");
                 }
 
             //Combat processing stage
