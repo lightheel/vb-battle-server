@@ -135,22 +135,8 @@ public class PVPController {
             int randTotal = rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15);
 
             if (checkAttackHit(playerCharacter, opponentCharacter)) {
+                // Player hits opponent - use critBar for crit calculation
                 if (critBar == 100.0f) {
-                    attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal) + randTotal;
-                    tempRoundWrapper.opponentCombatDamage = attackDamage;
-                }
-                else {
-                    attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal);
-                    tempRoundWrapper.opponentCombatDamage = attackDamage;
-                }
-                //deal damage to player
-                playerCharacter.setCurrentHp(playerCharacter.getCurrentHp() - attackDamage);
-                //System.out.println("player HP: " + playerCharacter.getCurrentHp());
-                tempRoundWrapper.playerAttackHit = false;
-                return tempRoundWrapper;
-            }
-            else {
-                if (rand.nextInt(99) >= 90) {
                     attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal) + randTotal;
                     tempRoundWrapper.playerCombatDamage = attackDamage;
                 }
@@ -161,8 +147,17 @@ public class PVPController {
                 //deal damage to enemy
                 opponentCharacter.setCurrentHp(opponentCharacter.getCurrentHp() - attackDamage);
                 //System.out.println("opponent HP: " + opponentCharacter.getCurrentHp());
-
                 tempRoundWrapper.playerAttackHit = true;
+                return tempRoundWrapper;
+            }
+            else {
+                // Opponent hits player - no critBar (opponent doesn't use player's critBar)
+                attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal);
+                tempRoundWrapper.opponentCombatDamage = attackDamage;
+                //deal damage to player
+                playerCharacter.setCurrentHp(playerCharacter.getCurrentHp() - attackDamage);
+                //System.out.println("player HP: " + playerCharacter.getCurrentHp());
+                tempRoundWrapper.playerAttackHit = false;
                 return tempRoundWrapper;
             }
         }
@@ -175,7 +170,12 @@ public class PVPController {
     }
 
     Character findPlayerDigi(int stage, String name) {
-        logger.debug("Searching for player char: {}", name);
+        // Trim whitespace that might cause lookup failures
+        if (name != null) {
+            name = name.trim();
+        }
+        
+        logger.debug("Searching for player char: stage={}, name='{}'", stage, name);
         
         // Validate input to prevent injection attacks
         if (name == null || name.isEmpty() || name.length() > 100) {
@@ -218,7 +218,12 @@ public class PVPController {
     }
 
     Character findOpponentDigi(int stage, String name){
-        logger.debug("Searching for opponent char: {}", name);
+        // Trim whitespace that might cause lookup failures
+        if (name != null) {
+            name = name.trim();
+        }
+        
+        logger.debug("Searching for opponent char: stage={}, name='{}'", stage, name);
         
         // Validate input to prevent injection attacks
         if (name == null || name.isEmpty() || name.length() > 100) {
@@ -308,7 +313,7 @@ public class PVPController {
         String authenticatedUserId = getAuthenticatedUserId();
         if (authenticatedUserId != null && !authenticatedUserId.equals(playerID)) {
             logger.warn("User ID mismatch: authenticated={}, requested={}", authenticatedUserId, playerID);
-            return new PVP("Authentication error: User ID mismatch", -1, -1, -1, -1, false, -1, -1, "");
+            return new PVP("Authentication error: User ID mismatch", -1, -1, -1, -1, -1, -1, false, -1, -1, "");
         }
         
         // Update timestamp for active combat sessions
@@ -354,7 +359,12 @@ public class PVPController {
                             // Fall through to create new match
                         } else if ("rejoin".equalsIgnoreCase(action)) {
                             // User wants to resume existing match
-                            logger.debug("Player {} resuming existing match at round {}", playerID, existingMatch.combatRound);
+                            int playerHP = existingMatch.playerCharacter.getCurrentHp();
+                            int opponentHP = existingMatch.opponentCharacter.getCurrentHp();
+                            int playerMaxHP = existingMatch.playerCharacter.getBaseHp();
+                            int opponentMaxHP = existingMatch.opponentCharacter.getBaseHp();
+                            logger.debug("Player {} resuming existing match at round {} - Player HP: {}, Opponent HP: {}", 
+                                playerID, existingMatch.combatRound, playerHP, opponentHP);
                             combatTimestamps.put(playerID, System.currentTimeMillis()); // Update activity timestamp
                             // Encode character info in winner field: "playerCharaId|playerStage|opponentCharaId|opponentStage"
                             String characterInfo = String.format("%s|%d|%s|%d", 
@@ -364,8 +374,10 @@ public class PVPController {
                                 existingMatch.opponentCharacter.getStage());
                             return new PVP("Match resumed.", existingMatch.combatRound, 
                                 existingMatch.combatRound, 
-                                existingMatch.playerCharacter.getCurrentHp(), 
-                                existingMatch.opponentCharacter.getCurrentHp(), 
+                                playerHP, 
+                                opponentHP,
+                                playerMaxHP,
+                                opponentMaxHP,
                                 false, -1, -1, characterInfo);
                         } else {
                             // No action specified - inform client of existing match
@@ -380,7 +392,9 @@ public class PVPController {
                                 existingMatch.combatRound, 
                                 existingMatch.combatRound, 
                                 existingMatch.playerCharacter.getCurrentHp(), 
-                                existingMatch.opponentCharacter.getCurrentHp(), 
+                                existingMatch.opponentCharacter.getCurrentHp(),
+                                existingMatch.playerCharacter.getBaseHp(),
+                                existingMatch.opponentCharacter.getBaseHp(),
                                 false, -1, -1, characterInfo);
                         }
                     }
@@ -395,12 +409,13 @@ public class PVPController {
                 if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
                     logger.debug("Match ID: {} - match setup for player ID: {} - player char: {} - opponent char: {}", 
                         msgID, playerID, tempPlayer.getName(), tempOpponent.getName());
-                    return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1,"");
+                    return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), 
+                        tempPlayer.getBaseHp(), tempOpponent.getBaseHp(), false, -1, -1,"");
                 }
                 else {
                     // This shouldn't happen, but handle edge case
                     logger.warn("Unexpected: Player {} match creation failed after cleanup", playerID);
-                    return new PVP("Error: Could not create match. Please try again.", -1,-1, -1, -1, false, -1, -1, "");
+                    return new PVP("Error: Could not create match. Please try again.", -1,-1, -1, -1, -1, -1, false, -1, -1, "");
                 }
 
             //Combat processing stage
@@ -410,7 +425,8 @@ public class PVPController {
                     if (combatInstance.isCombatComplete()) {
                         logger.debug("Match Number: {} Match over. Winner is: {}", msgID, combatInstance.getWinner().getName());
                         return new PVP("Winner reported. Match over.", 2, combatInstance.combatRound, 
-                            combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(), 
+                            combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(),
+                            combatInstance.playerCharacter.getBaseHp(), combatInstance.opponentCharacter.getBaseHp(),
                             false, -1, -1, combatInstance.getWinner().getName());
                     }
                     else {
@@ -418,7 +434,8 @@ public class PVPController {
                         logger.debug("Match Number: {} - Match processing. Player attack hit: {} Player damage: {} Opponent damage: {}", 
                             msgID, tempCombatRound.playerAttackHit, tempCombatRound.playerCombatDamage, tempCombatRound.opponentCombatDamage);
                         return new PVP("Match processing.", 1, combatInstance.combatRound, 
-                            combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(), 
+                            combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(),
+                            combatInstance.playerCharacter.getBaseHp(), combatInstance.opponentCharacter.getBaseHp(),
                             tempCombatRound.playerAttackHit, tempCombatRound.playerCombatDamage, tempCombatRound.opponentCombatDamage, "");
                     }
                 }
@@ -435,12 +452,15 @@ public class PVPController {
                         int finalRoundCount = finalInstance.combatRound;
                         int finalPlayerHP = finalInstance.playerCharacter.getCurrentHp();
                         int finalOpponentHP = finalInstance.opponentCharacter.getCurrentHp();
+                        int finalPlayerMaxHP = finalInstance.playerCharacter.getBaseHp();
+                        int finalOpponentMaxHP = finalInstance.opponentCharacter.getBaseHp();
                         finalInstance.resetCombat();
                         combatDictionary.remove(playerID);
                         combatTimestamps.remove(playerID);
                         logger.debug("Match Number: {} Match over. Winner is: {}", msgID, finalInstance.getWinner().getName());
                         msgID++;
-                        return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP, false, -1, -1, finalInstance.getWinner().getName());
+                        return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP,
+                            finalPlayerMaxHP, finalOpponentMaxHP, false, -1, -1, finalInstance.getWinner().getName());
                     }
                     else {
                         logger.warn("ERROR: combat not completed. Wrong API state sent for player: {}", playerID);
@@ -448,9 +468,9 @@ public class PVPController {
                 }
                 else {
                     logger.warn("Player ID {} not found in current match.", playerID);
-                    return new PVP("Player ID not found in current match.", -1,-1, -1, -1, false, -1, -1,"");
+                    return new PVP("Player ID not found in current match.", -1,-1, -1, -1, -1, -1, false, -1, -1,"");
                 }
         }
-        return new PVP("Error processing request", -1,-1, -1, -1, false, -1, -1,"");
+        return new PVP("Error processing request", -1,-1, -1, -1, -1, -1, false, -1, -1,"");
     }
 }
