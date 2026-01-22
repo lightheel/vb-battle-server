@@ -14,9 +14,9 @@ public class VBChampionStats {
 
     //Attributes
     // 0 None
-    // 1 Virus
-    // 2 Data
-    // 3 Vaccine
+    // 1 Vaccine
+    // 2 Virus
+    // 3 Data
     // 4 Free
 
     //Digimon server-side stat references.
