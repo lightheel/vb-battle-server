@@ -324,7 +324,7 @@ public class PVPController {
                 Character tempOpponent = findOpponentDigi(opponentStage, opponentDigi);
 
                 if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
-                    logger.info("Match ID: {} - match setup for player ID: {} - player char: {} - opponent char: {}", 
+                    logger.debug("Match ID: {} - match setup for player ID: {} - player char: {} - opponent char: {}", 
                         msgID, playerID, tempPlayer.getName(), tempOpponent.getName());
                     return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), false, -1, -1,"");
                 }
@@ -338,7 +338,7 @@ public class PVPController {
                 pvpInstance combatInstance = combatDictionary.get(playerID);
                 if (combatInstance != null) {
                     if (combatInstance.isCombatComplete()) {
-                        logger.info("Match Number: {} Match over. Winner is: {}", msgID, combatInstance.getWinner().getName());
+                        logger.debug("Match Number: {} Match over. Winner is: {}", msgID, combatInstance.getWinner().getName());
                         return new PVP("Winner reported. Match over.", 2, combatInstance.combatRound, 
                             combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(), 
                             false, -1, -1, combatInstance.getWinner().getName());
@@ -368,7 +368,7 @@ public class PVPController {
                         finalInstance.resetCombat();
                         combatDictionary.remove(playerID);
                         combatTimestamps.remove(playerID);
-                        logger.info("Match Number: {} Match over. Winner is: {}", msgID, finalInstance.getWinner().getName());
+                        logger.debug("Match Number: {} Match over. Winner is: {}", msgID, finalInstance.getWinner().getName());
                         msgID++;
                         return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP, false, -1, -1, finalInstance.getWinner().getName());
                     }

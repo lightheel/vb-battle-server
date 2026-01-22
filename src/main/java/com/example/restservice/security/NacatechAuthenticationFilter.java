@@ -26,25 +26,12 @@ public class NacatechAuthenticationFilter extends OncePerRequestFilter {
     
     private static final Logger logger = LoggerFactory.getLogger(NacatechAuthenticationFilter.class);
     
-    // Common bot/scraper probe paths that don't have endpoints - skip authentication
-    private static final Set<String> BOT_PROBE_PATHS = Set.of(
-        "/",                    // Root path
-        "/favicon.ico",         // Browser favicon requests
-        "/robots.txt",          // Search engine crawler file
-        "/json",                // Common API probe path
-        "/json/",               // Common API probe path (with trailing slash)
-        "/api",                 // API root (no endpoint)
-        "/api/",                // API root with trailing slash
-        "/version",             // Version/info endpoint probe
-        "/info",                // Info endpoint probe
-        "/health",              // Health check probe
-        "/status",              // Status endpoint probe
-        "/wp-admin",            // WordPress admin probe
-        "/wp-admin/",           // WordPress admin probe (with trailing slash)
-        "/admin",               // Admin panel probe
-        "/admin/",              // Admin panel probe (with trailing slash)
-        "/.well-known",         // Well-known paths (Let's Encrypt, etc.)
-        "/.well-known/"         // Well-known paths with trailing slash
+    // Known endpoints that require authentication - everything else will 404 anyway
+    private static final Set<String> PROTECTED_ENDPOINTS = Set.of(
+        "/api/pvp",
+        "/api/battle",
+        "/api/opponents",
+        "/api/combat"
     );
     
     private final AuthService authService;
@@ -64,9 +51,13 @@ public class NacatechAuthenticationFilter extends OncePerRequestFilter {
         
         logger.debug("Authentication filter: {} {}", method, path);
         
-        // Skip authentication for auth endpoints, OPTIONS (CORS preflight), actuator endpoints, and common bot/scraper probe paths
-        if (path.startsWith("/api/auth") || "OPTIONS".equals(method) || path.startsWith("/actuator") || BOT_PROBE_PATHS.contains(path)) {
-            logger.debug("Skipping authentication for: {} {}", method, path);
+        // Skip authentication for public endpoints, OPTIONS (CORS preflight), actuator endpoints, and any non-protected endpoints
+        // Only check authentication for known protected endpoints - everything else will 404 anyway
+        boolean isPublicEndpoint = path.startsWith("/api/auth") || "/greeting".equals(path);
+        boolean isProtectedEndpoint = PROTECTED_ENDPOINTS.stream().anyMatch(path::startsWith);
+        
+        if (isPublicEndpoint || "OPTIONS".equals(method) || path.startsWith("/actuator") || !isProtectedEndpoint) {
+            logger.debug("Skipping authentication for: {} {} (not a protected endpoint)", method, path);
             filterChain.doFilter(request, response);
             return;
         }
@@ -81,7 +72,8 @@ public class NacatechAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         
         if (sessionToken == null && nacatechToken == null) {
-            logger.info("No authentication headers found for {} {}. Headers received: X-Session-Token={}, X-User-Token={}, Authorization={}", 
+            // Log at DEBUG level - bots probing protected endpoints without auth is expected
+            logger.debug("No authentication headers found for {} {}. Headers received: X-Session-Token={}, X-User-Token={}, Authorization={}", 
                 method, path,
                 xSessionHeader != null ? ("present: " + (xSessionHeader.length() > 0 ? "non-empty" : "empty")) : "missing",
                 xUserTokenHeader != null ? ("present: " + (xUserTokenHeader.length() > 0 ? "non-empty" : "empty")) : "missing",
@@ -132,7 +124,8 @@ public class NacatechAuthenticationFilter extends OncePerRequestFilter {
         } else {
             // No valid authentication - clear context
             SecurityContextHolder.clearContext();
-            logger.warn("No valid authentication found for request: {} {}. Client must send X-Session-Token header (from /api/auth/login) or X-User-Token header (nacatech token).", method, path);
+            // Log at DEBUG level - bots probing protected endpoints without auth is expected
+            logger.debug("No valid authentication found for request: {} {}. Client must send X-Session-Token header (from /api/auth/login) or X-User-Token header (nacatech token).", method, path);
         }
         
         filterChain.doFilter(request, response);

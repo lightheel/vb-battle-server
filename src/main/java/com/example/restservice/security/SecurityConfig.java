@@ -33,6 +33,11 @@ public class SecurityConfig {
     }
     
     @Bean
+    public CloudFlareVerificationFilter cloudFlareVerificationFilter() {
+        return new CloudFlareVerificationFilter();
+    }
+    
+    @Bean
     public RateLimitingFilter rateLimitingFilter() {
         return new RateLimitingFilter();
     }
@@ -45,6 +50,7 @@ public class SecurityConfig {
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, 
+                                                   CloudFlareVerificationFilter cloudFlareVerificationFilter,
                                                    RateLimitingFilter rateLimitingFilter,
                                                    NacatechAuthenticationFilter nacatechAuthenticationFilter) throws Exception {
         http
@@ -56,9 +62,12 @@ public class SecurityConfig {
                 // Public endpoints
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/greeting").permitAll()
-                // All other endpoints require authentication (session token or nacatech token)
-                .anyRequest().authenticated()
+                // Protected game endpoints require authentication
+                .requestMatchers("/api/pvp", "/api/battle", "/api/opponents", "/api/combat").authenticated()
+                // Everything else is permitted (will 404 anyway if no endpoint exists)
+                .anyRequest().permitAll()
             )
+            .addFilterBefore(cloudFlareVerificationFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(nacatechAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))

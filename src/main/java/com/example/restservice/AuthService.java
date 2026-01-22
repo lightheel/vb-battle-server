@@ -118,12 +118,11 @@ public class AuthService {
             headers.set("NacaAuth-Token", nacaAuthToken);
             headers.set("Application-ID", applicationId);
             
-            logger.info("Sending auth request to nacatech:");
-            logger.info("  URL: {}", authUrl);
-            logger.info("  Application-ID: {}", applicationId);
-            logger.info("  user_nonce length: {}", userToken.length());
-            logger.info("  user_nonce (preview): {}", userToken.length() > 10 ? userToken.substring(0, 4) + "..." + userToken.substring(userToken.length() - 4) : userToken);
-            logger.info("  user_nonce (full): {}", userToken);
+            logger.debug("Sending auth request to nacatech:");
+            logger.debug("  URL: {}", authUrl);
+            logger.debug("  Application-ID: {}", applicationId);
+            logger.debug("  user_nonce length: {}", userToken.length());
+            logger.debug("  user_nonce (preview): {}", userToken.length() > 10 ? userToken.substring(0, 4) + "..." + userToken.substring(userToken.length() - 4) : userToken);
             logger.debug("  Request body: {}", requestBody);
             
             // Create request entity
@@ -178,7 +177,7 @@ public class AuthService {
                 
                 String userId = idObj.toString();
                 UserInfo userInfo = new UserInfo(userId, userData);
-                logger.info("Authentication successful for user ID: {}", userId);
+                logger.debug("Authentication successful for user ID: {}", userId);
                 
                 // Cache successful authentication
                 AuthResponse successResponse = new AuthResponse(true, "Authentication successful", userInfo);
