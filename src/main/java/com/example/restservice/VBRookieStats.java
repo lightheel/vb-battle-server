@@ -21,6 +21,19 @@ public class VBRookieStats {
     //Digimon server-side stat references.
     //VB Rookie Characters (Phase 3) - (ipId=1 only)
 
+    /*
+    static public final Character dim020_mon03 = new Character("IMPMON","degimon_name_Dim020_003","dim020_mon03",0,2,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim012_mon03 = new Character("AGUMON","degimon_name_Dim012_003","dim012_mon03",0,1,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim013_mon03 = new Character("GABUMON","degimon_name_Dim013_005","dim013_mon03",0,3,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim007_mon03 = new Character("VEEMON","degimon_name_Dim007_003","dim007_mon03",0,4,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim017_mon03 = new Character("GUILMON","degimon_name_Dim017_003","dim017_mon03",0,2,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim021_mon03 = new Character("RENAMON","degimon_name_Dim021_003","dim021_mon03",0,3,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim018_mon03 = new Character("TERRIERMON","degimon_name_Dim018_003","dim018_mon03",0,1,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim000_mon03 = new Character("PULSEMON","degimon_name_Dim000_003","dim000_mon03",0,1,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim023_mon03 = new Character("GAMMAMON","degimon_name_Dim023_003","dim023_mon03",0,2,1800, 1800, 2400.0f,700.0f);
+    static public final Character dim034_mon04 = new Character("RYUDAMON","degimon_name_Dim034_005","dim034_mon04",0,1,1800, 1800, 2400.0f,700.0f);
+    */
+
     //DIM CHARACTERS
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Impulse City

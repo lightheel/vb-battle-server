@@ -19,6 +19,19 @@ public class VBMegaStats {
     // 3 Data
     // 4 Free
 
+    /*
+    static public final Character dim020_mon07 = new Character("BEELZEMON","degimon_name_Dim020_007","dim020_mon07",3,2,2640, 2640, 4675.0f,1280.0f);
+    static public final Character dim012_mon14 = new Character("WARGREYMON","degimon_name_Dim012_014","dim012_mon14",3,1,3080, 3080, 3825.0f,800.0f);
+    static public final Character dim013_mon14 = new Character("METALGARURUMON","degimon_name_Dim013_015","dim013_mon14",3,3,3080, 3080, 3825.0f,800.0f);
+    static public final Character dim007_mon16 = new Character("MAGNAMON","degimon_name_Dim007_016","dim007_mon16",3,4,2640, 2640, 4250.0f,800.0f);
+    static public final Character dim017_mon14 = new Character("GALLANTMON","degimon_name_Dim017_006","dim017_mon14",3,2,3080, 3080, 4675.0f,1120.0f);
+    static public final Character dim021_mon06 = new Character("SAKUYAMON","degimon_name_Dim021_006","dim021_mon06",3,3,3080, 3080, 4250.0f,1280.0f);
+    static public final Character dim018_mon14 = new Character("MEGAGARGOMON","degimon_name_Dim018_014","dim018_mon14",3,1,3960, 3960, 4250.0f,960.0f);
+    static public final Character dim000_mon14 = new Character("KAZUCHIMON","degimon_name_Dim000_014","dim000_mon14",3,1,3080, 3080, 4250.0f,1120.0f);
+    static public final Character dim023_mon12 = new Character("AEGISDRAMON","degimon_name_Dim023_012","dim023_mon12",3,1,3080, 3080, 4675.0f,1120.0f);
+    static public final Character dim034_mon15 = new Character("OURYUMON","degimon_name_Dim034_015","dim034_mon15",3,1,2640, 2640, 4250.0f,1120.0f);
+     */
+
     //Digimon server-side stat references.
     //VB Mega Characters (Phase 3) - (ipId=1 only)
 
@@ -112,8 +125,8 @@ public class VBMegaStats {
     static public final Character dim017_mon17 = new Character("GALLANTMON: CRIMSON MODE","degimon_name_Dim017_017","dim017_mon17",3,2,3520, 3520, 5950.0f,1440.0f);
     //Terriermon EX
     static public final Character dim018_mon14 = new Character("MEGAGARGOMON","degimon_name_Dim018_014","dim018_mon14",3,1,3960, 3960, 4250.0f,960.0f);
-    static public final Character dim018_mon15 = new Character("CHERUBIMON (GOOD)","degimon_name_Dim018_015","dim018_mon15",3,1,2640, 2640, 4250.0f,1120.0f);
-    static public final Character dim018_mon16 = new Character("CHERUBIMON (BLACK)","degimon_name_Dim018_016","dim018_mon16",3,1,2200, 2200, 4250.0f,1280.0f);
+    static public final Character dim018_mon15 = new Character("CHERUBIMON (VIRTUE)","degimon_name_Dim018_015","dim018_mon15",3,1,2640, 2640, 4250.0f,1120.0f);
+    static public final Character dim018_mon16 = new Character("CHERUBIMON (VICE)","degimon_name_Dim018_016","dim018_mon16",3,1,2200, 2200, 4250.0f,1280.0f);
     static public final Character dim018_mon17 = new Character("RAPIDMON","degimon_name_Dim018_017","dim018_mon17",3,1,2640, 2640, 5100.0f,1440.0f);
     //Guilmon GP
     static public final Character dim019_mon06 = new Character("MEDICALGALLANTMON","degimon_name_Dim019_006","dim019_mon06",3,3,2640, 2640, 4250.0f,1280.0f);

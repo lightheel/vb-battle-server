@@ -19,6 +19,19 @@ public class VBUltimateStats {
     // 3 Data
     // 4 Free
 
+    /*
+    static public final Character dim011_mon08 = new Character("BAALMON","degimon_name_Dim011_002","dim011_mon08",2,4,2200, 2200, 2450.0f,800.0f);
+    static public final Character dim005_mon13 = new Character("METALGREYMON (2010 ANIME VERSION)","degimon_name_Dim005_013","dim005_mon13",2,2,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim030_mon09 = new Character("WEREGARURUMON","degimon_name_Dim030_006","dim030_mon09",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim007_mon08 = new Character("AEROVEEDRAMON","degimon_name_Dim007_008","dim007_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim017_mon12 = new Character("WARGROWLMON","degimon_name_Dim017_005","dim017_mon12",2,2,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim021_mon05 = new Character("TAOMON","degimon_name_Dim021_005","dim021_mon05",2,3,1760, 1760, 2450.0f,1000.0f);
+    static public final Character dim018_mon08 = new Character("RAPIDMON","degimon_name_Dim018_008","dim018_mon08",2,1,1980, 1980, 2450.0f,800.0f);
+    static public final Character dim000_mon08 = new Character("BOUTMON","degimon_name_Dim000_008","dim000_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim023_mon08 = new Character("CANOWEISSMON","degimon_name_Dim023_008","dim023_mon08",2,1,2640, 2640, 2450.0f,800.0f);
+    static public final Character dim034_mon10 = new Character("HISYARYUMON","degimon_name_Dim034_010","dim034_mon10",2,1,1760, 1760, 2450.0f,1000.0f);
+     */
+
     //Digimon server-side stat references.
     //VB Ultimate Characters (Phase 5) - (ipId=1 only)
 
@@ -148,9 +161,9 @@ public class VBUltimateStats {
     static public final Character dim019_mon05 = new Character("WARGROWLMON","degimon_name_Dim019_005","dim019_mon05",2,2,1760, 1760, 2450.0f,1000.0f);
     //Impmon GP
     static public final Character dim020_mon05 = new Character("BAALMON","degimon_name_Dim020_005","dim020_mon05",2,4,2200, 2200, 2450.0f,800.0f);
-    //Monodramon GP
-    static public final Character dim021_mon05 = new Character("TAOMON","degimon_name_Dim021_005","dim021_mon05",2,3,1760, 1760, 2450.0f,1000.0f);
     //Renamon GP
+    static public final Character dim021_mon05 = new Character("TAOMON","degimon_name_Dim021_005","dim021_mon05",2,3,1760, 1760, 2450.0f,1000.0f);
+    //Monodramon GP
     static public final Character dim022_mon05 = new Character("CYBERDRAMON","degimon_name_Dim022_013","dim022_mon05",2,1,2200, 2200, 2450.0f,800.0f);
     //Gammamon
     static public final Character dim023_mon08 = new Character("CANOWEISSMON","degimon_name_Dim023_008","dim023_mon08",2,1,2640, 2640, 2450.0f,800.0f);

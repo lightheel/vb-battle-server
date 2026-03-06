@@ -19,6 +19,19 @@ public class VBChampionStats {
     // 3 Data
     // 4 Free
 
+    /*
+    static public final Character dim020_mon04 = new Character("WIZARDMON","degimon_name_Dim020_004","dim020_mon04",1,3,1600, 1600, 2400.0f,900.0f);
+    static public final Character dim012_mon04 = new Character("GREYMON","degimon_name_Dim012_004","dim012_mon04",1,1,2000, 2000, 3000.0f,900.0f);
+    static public final Character dim013_mon04 = new Character("GARURUMON","degimon_name_Dim013_006","dim013_mon04",1,1,2000, 2000, 3000.0f,900.0f);
+    static public final Character dim007_mon04 = new Character("VEEDRAMON","degimon_name_Dim007_004","dim007_mon04",1,1,2000, 2000, 3000.0f,900.0f);
+    static public final Character dim017_mon06 = new Character("GROWLMON","degimon_name_Dim017_004","dim017_mon06",1,2,1600, 1600, 3000.0f,900.0f);
+    static public final Character dim021_mon04 = new Character("KYUBIMON","degimon_name_Dim021_004","dim021_mon04",1,3,1600, 1600, 2400.0f,900.0f);
+    static public final Character dim018_mon04 = new Character("GARGOMON","degimon_name_Dim018_004","dim018_mon04",1,1,2000, 2000, 3000.0f,900.0f);
+    static public final Character dim000_mon04 = new Character("BULKMON","degimon_name_Dim000_004","dim000_mon04",1,1,2000, 2000, 3000.0f,900.0f);
+    static public final Character dim023_mon04 = new Character("BETELGAMMAMON","degimon_name_Dim023_004","dim023_mon04",1,1,2000, 2000, 3000.0f,900.0f);
+    static public final Character dim034_mon06 = new Character("GINRYUMON","degimon_name_Dim034_007","dim034_mon06",1,1,1600, 1600, 2400.0f,900.0f);
+     */
+
     //Digimon server-side stat references.
     //VB Champion Characters (Phase 4) - (ipId=1 only)
 
