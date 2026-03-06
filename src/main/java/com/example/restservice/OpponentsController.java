@@ -25,13 +25,13 @@ public class OpponentsController {
     ArrayList<Character> OpponentsByStage(int stage) {
         switch (stage) {
             case 0:
-                return VBRookieStats.rookieArray;
+                return RestServiceApplication.rookieRoster;
             case 1:
-                return VBChampionStats.championArray;
+                return RestServiceApplication.championRoster;
             case 2:
-                return VBUltimateStats.ultimateArray;
+                return RestServiceApplication.ultimateRoster;
             case 3:
-                return VBMegaStats.megaArray;
+                return RestServiceApplication.megaRoster;
             default:
                 return new ArrayList<>();
         }
