@@ -547,11 +547,20 @@ public class PVPController {
                 pvpInstance combatInstance = combatDictionary.get(playerID);
                 if (combatInstance != null) {
                     if (combatInstance.isCombatComplete()) {
-                        logger.debug("Match Number: {} Match over. Winner is: {}", msgID, combatInstance.getWinner().getName());
-                        return new PVP("Winner reported. Match over.", 2, combatInstance.combatRound, 
+                        Character pvpWinner = combatInstance.getWinner();
+                        boolean playerWon = pvpWinner.getCharaId().equals(combatInstance.playerCharacter.getCharaId());
+                        if (playerWon) {
+                            logger.info("api/pvp match over (apiStage=1). Player won with {}, adding to roster. authenticatedUserId={}", pvpWinner.getName(), authenticatedUserId);
+                            Character winnerCopy = new Character(pvpWinner);
+                            if (authenticatedUserId != null) winnerCopy.setOwnerUsername(authenticatedUserId);
+                            RestServiceApplication.addWinnerToRoster(winnerCopy, authenticatedUserId != null ? authenticatedUserId : "");
+                        } else {
+                            logger.info("api/pvp match over (apiStage=1). Opponent won ({}). Not adding to roster.", pvpWinner.getName());
+                        }
+                        return new PVP("Winner reported. Match over.", 2, combatInstance.combatRound,
                             combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(),
                             combatInstance.playerMaxHp, combatInstance.opponentCharacter.getBaseHp(),
-                            false, -1, -1, combatInstance.getWinner().getName());
+                            false, -1, -1, pvpWinner.getName());
                     }
                     else {
                         combatRoundWrapper tempCombatRound = combatInstance.processCombatRound(critBar);
@@ -568,11 +577,13 @@ public class PVPController {
                     break;
                 }
 
-            //Winner report stage
+            //Winner report stage (client calls to clean up after match over)
             case 2:
+                logger.info("api/pvp winner-report (apiStage=2): playerID={}", playerID);
                 pvpInstance finalInstance = combatDictionary.get(playerID);
                 if (finalInstance != null) {
                     if (finalInstance.isCombatComplete()) {
+                        Character pvpWinner = finalInstance.getWinner();
                         int finalRoundCount = finalInstance.combatRound;
                         int finalPlayerHP = finalInstance.playerCharacter.getCurrentHp();
                         int finalOpponentHP = finalInstance.opponentCharacter.getCurrentHp();
@@ -581,10 +592,10 @@ public class PVPController {
                         finalInstance.resetCombat();
                         combatDictionary.remove(playerID);
                         combatTimestamps.remove(playerID);
-                        logger.debug("Match Number: {} Match over. Winner is: {}", msgID, finalInstance.getWinner().getName());
+                        logger.info("api/pvp cleanup. Winner was: {}", pvpWinner.getName());
                         msgID++;
                         return new PVP("Match cleaned up. Winner reported.", 3, finalRoundCount, finalPlayerHP, finalOpponentHP,
-                            finalPlayerMaxHP, finalOpponentMaxHP, false, -1, -1, finalInstance.getWinner().getName());
+                            finalPlayerMaxHP, finalOpponentMaxHP, false, -1, -1, pvpWinner.getName());
                     }
                     else {
                         logger.warn("ERROR: combat not completed. Wrong API state sent for player: {}", playerID);

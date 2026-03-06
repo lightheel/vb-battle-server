@@ -7,12 +7,15 @@ import com.example.vb_battle_server.Character;
 import java.util.Random;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CombatController {
+    private static final Logger logger = LoggerFactory.getLogger(CombatController.class);
     Random rand = new Random();
     boolean round1 = false;
     boolean round2 = false;
@@ -107,8 +110,14 @@ public class CombatController {
     //Uses stage parameter from incoming Get request to lookup correct Digimon for combat
     @GetMapping("api/combat")
     public Combat combat(@RequestParam(value = "stage") String stage) {
+        logger.info("api/combat called: stage={}", stage);
         ArrayList<Character> characterCombatArray = CombatStartByStage(CheckStage(stage));
+        if (characterCombatArray.size() < 2) {
+            logger.warn("api/combat: no pair for stage={}", stage);
+            return new Combat("", round1, round2, round3, round4);
+        }
         Character winner = CombatLoop(characterCombatArray.get(0), characterCombatArray.get(1));
+        logger.info("api/combat completed. Winner: {} (no roster add - api/combat has no player/opponent)", winner.getName());
         return new Combat(winner.getName(), round1, round2, round3, round4);
     }
 }

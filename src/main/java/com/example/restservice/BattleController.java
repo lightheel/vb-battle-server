@@ -10,9 +10,13 @@ import jakarta.validation.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.restservice.security.NacatechAuthenticationToken;
 
 import java.security.SecureRandom;
 
@@ -171,6 +175,14 @@ public class BattleController {
         return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
 
+    private String getAuthenticatedUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof NacatechAuthenticationToken nacatechAuth) {
+            return nacatechAuth.getUserInfo().userId();
+        }
+        return null;
+    }
+
     //Uses stage parameter from incoming Get request to lookup correct Digimon for combat
     @GetMapping("api/battle")
     public Combat combat(
@@ -179,29 +191,27 @@ public class BattleController {
             @RequestParam(value = "opponentDigi") @NotBlank String opponentDigi,
             @RequestParam(value = "opponentStage") @Min(0) @Max(3) int opponentStage) {
         
-        logger.debug("Battle request: playerDigi={}, playerStage={}, opponentDigi={}, opponentStage={}", 
+        logger.info("api/battle called: playerDigi={}, playerStage={}, opponentDigi={}, opponentStage={}",
             playerDigi, playerStage, opponentDigi, opponentStage);
         
         Character tempPlayer = findPlayerDigi(playerStage, playerDigi);
         Character tempOpponent = findOpponentDigi(opponentStage, opponentDigi);
         Character winner = CombatLoop(tempPlayer, tempOpponent);
-        
+
         logger.info("Battle completed. Winner: {}", winner.getName());
-        
-        switch(winner.getStage()){
-            case 0:
-                VBRookieStats.rookieArray.add(winner);
-                break;
-            case 1:
-                VBChampionStats.championArray.add(winner);
-                break;
-            case 2:
-                VBUltimateStats.ultimateArray.add(winner);
-                break;
-            case 3:
-                VBMegaStats.megaArray.add(winner);
-                break;
+
+        boolean playerWon = winner.getCharaId().equals(tempPlayer.getCharaId());
+        if (playerWon) {
+            String username = getAuthenticatedUserId();
+            logger.info("Roster add: player won with {}, stage={}, authenticatedUserId={}",
+                winner.getName(), winner.getStage(), username != null ? username : "(null)");
+            Character winnerCopy = new Character(winner);
+            if (username != null) winnerCopy.setOwnerUsername(username);
+            RestServiceApplication.addWinnerToRoster(winnerCopy, username != null ? username : "");
+        } else {
+            logger.info("Battle: opponent won ({}). Not adding to roster.", winner.getName());
         }
+
         return new Combat(winner.getName(), round1, round2, round3, round4);
     }
 }

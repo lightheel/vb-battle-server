@@ -22,21 +22,21 @@ public class OpponentsController {
         };
     }
 
+    /** Returns the list of characters for the given stage, built from roster entries (thread-safe snapshot). */
     ArrayList<Character> OpponentsByStage(int stage) {
-        switch (stage) {
-            case 0:
-                return RestServiceApplication.rookieRoster;
-            case 1:
-                return RestServiceApplication.championRoster;
-            case 2:
-                return RestServiceApplication.ultimateRoster;
-            case 3:
-                return RestServiceApplication.megaRoster;
-            default:
-                return new ArrayList<>();
+        if (stage < 0 || stage > 3) {
+            return new ArrayList<>();
+        }
+        ArrayList<RosterEntry> roster = RestServiceApplication.getRosterForStage(stage);
+        synchronized (roster) {
+            ArrayList<Character> list = new ArrayList<>(roster.size());
+            for (RosterEntry e : roster) {
+                list.add(e.character());
+            }
+            return list;
         }
     }
-    
+
     //Uses stage parameter from incoming Get request to lookup correct Digimon for combat
     @GetMapping("api/opponents")
     public Opponents opponents(@RequestParam(value = "stage") String stage) {
