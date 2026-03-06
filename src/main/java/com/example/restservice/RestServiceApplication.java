@@ -95,7 +95,7 @@ public class RestServiceApplication {
 
     /**
      * Adds a winner (copy with ownerUsername set) to the roster for its stage.
-     * Enforces max 3 per user per stage (replaces that user's oldest) and max 100 per stage (evicts globally oldest).
+     * Enforces: no duplicate charaId per user per stage, max 3 per user per stage, max 100 per stage.
      */
     public static void addWinnerToRoster(Character winnerCopy, String username) {
         if (username == null) username = "";
@@ -106,9 +106,17 @@ public class RestServiceApplication {
         }
         ArrayList<RosterEntry> roster = getRosterForStage(stage);
         String stageName = switch (stage) { case 0 -> "rookie"; case 1 -> "champion"; case 2 -> "ultimate"; case 3 -> "mega"; default -> "?"; };
+        String winnerCharaId = winnerCopy.getCharaId();
 
         synchronized (roster) {
             int sizeBefore = roster.size();
+            // Remove any existing entry for this user with the same charaId (no duplicate same-Digimon per user)
+            if (!username.isEmpty()) {
+                roster.removeIf(e -> {
+                    String owner = e.character().getOwnerUsername();
+                    return owner != null && owner.equals(username) && winnerCharaId.equals(e.character().getCharaId());
+                });
+            }
             // Count this user's entries and find their oldest
             RosterEntry userOldest = null;
             int userCount = 0;
