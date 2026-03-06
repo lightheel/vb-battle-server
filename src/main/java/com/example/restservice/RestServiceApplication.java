@@ -98,7 +98,7 @@ public class RestServiceApplication {
      * Enforces: no duplicate charaId per user per stage, max 3 per user per stage, max 100 per stage.
      */
     public static void addWinnerToRoster(Character winnerCopy, String username) {
-        if (username == null) username = "";
+        final String user = (username != null) ? username : "";
         int stage = winnerCopy.getStage();
         if (stage < 0 || stage > 3) {
             logger.warn("addWinnerToRoster: skipped invalid stage={} for winner={}", stage, winnerCopy.getName());
@@ -111,10 +111,10 @@ public class RestServiceApplication {
         synchronized (roster) {
             int sizeBefore = roster.size();
             // Remove any existing entry for this user with the same charaId (no duplicate same-Digimon per user)
-            if (!username.isEmpty()) {
+            if (!user.isEmpty()) {
                 roster.removeIf(e -> {
                     String owner = e.character().getOwnerUsername();
-                    return owner != null && owner.equals(username) && winnerCharaId.equals(e.character().getCharaId());
+                    return owner != null && owner.equals(user) && winnerCharaId.equals(e.character().getCharaId());
                 });
             }
             // Count this user's entries and find their oldest
@@ -122,7 +122,7 @@ public class RestServiceApplication {
             int userCount = 0;
             for (RosterEntry e : roster) {
                 String owner = e.character().getOwnerUsername();
-                if (owner != null && owner.equals(username)) {
+                if (owner != null && owner.equals(user)) {
                     userCount++;
                     if (userOldest == null || e.addedAt() < userOldest.addedAt()) {
                         userOldest = e;
@@ -133,7 +133,7 @@ public class RestServiceApplication {
             // If user already has 3, remove their oldest (we will add the new one)
             if (userCount >= MAX_PER_USER_PER_STAGE && userOldest != null) {
                 roster.remove(userOldest);
-                logger.info("addWinnerToRoster: removed user's oldest (user had {}), stage={}, winner={}, user={}", userCount, stageName, winnerCopy.getName(), username);
+                logger.info("addWinnerToRoster: removed user's oldest (user had {}), stage={}, winner={}, user={}", userCount, stageName, winnerCopy.getName(), user);
             } else if (roster.size() >= MAX_ROSTER_PER_STAGE) {
                 // At capacity: remove globally oldest
                 RosterEntry oldest = roster.get(0);
@@ -145,7 +145,7 @@ public class RestServiceApplication {
             }
 
             roster.add(new RosterEntry(winnerCopy, System.currentTimeMillis()));
-            logger.info("addWinnerToRoster: added winner={}, stage={}, user={}, rosterSize before={} after={}", winnerCopy.getName(), stageName, username.isEmpty() ? "(no user)" : username, sizeBefore, roster.size());
+            logger.info("addWinnerToRoster: added winner={}, stage={}, user={}, rosterSize before={} after={}", winnerCopy.getName(), stageName, user.isEmpty() ? "(no user)" : user, sizeBefore, roster.size());
         }
     }
 
