@@ -356,14 +356,19 @@ public class PVPController {
     }
     
     /**
-     * Get authenticated user ID from security context
+     * Get authenticated user info from security context (userId and displayName from Nacatech).
      */
-    private String getAuthenticatedUserId() {
+    private UserInfo getAuthenticatedUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof NacatechAuthenticationToken nacatechAuth) {
-            return nacatechAuth.getUserInfo().userId();
+            return nacatechAuth.getUserInfo();
         }
         return null;
+    }
+
+    private String getAuthenticatedUserId() {
+        UserInfo ui = getAuthenticatedUserInfo();
+        return ui != null ? ui.userId() : null;
     }
 
     /**
@@ -550,10 +555,12 @@ public class PVPController {
                         Character pvpWinner = combatInstance.getWinner();
                         boolean playerWon = pvpWinner.getCharaId().equals(combatInstance.playerCharacter.getCharaId());
                         if (playerWon) {
-                            logger.info("api/pvp match over (apiStage=1). Player won with {}, adding to roster. authenticatedUserId={}", pvpWinner.getName(), authenticatedUserId);
+                            UserInfo userInfo = getAuthenticatedUserInfo();
+                            String uid = userInfo != null ? userInfo.userId() : "";
+                            String displayName = (userInfo != null && userInfo.displayName() != null) ? userInfo.displayName() : uid;
+                            logger.info("api/pvp match over (apiStage=1). Player won with {}, adding to roster. user={}", pvpWinner.getName(), displayName);
                             Character winnerCopy = new Character(pvpWinner);
-                            if (authenticatedUserId != null) winnerCopy.setOwnerUsername(authenticatedUserId);
-                            RestServiceApplication.addWinnerToRoster(winnerCopy, authenticatedUserId != null ? authenticatedUserId : "");
+                            RestServiceApplication.addWinnerToRoster(winnerCopy, uid, displayName);
                         } else {
                             logger.info("api/pvp match over (apiStage=1). Opponent won ({}). Not adding to roster.", pvpWinner.getName());
                         }

@@ -67,6 +67,23 @@ public class AuthService {
         }
     }
     
+    /**
+     * Extract a human-readable display name from Nacatech userinfo response.
+     * Tries common keys in order; returns null if none present.
+     */
+    private static String extractDisplayName(Map<String, Object> userData) {
+        if (userData == null) return null;
+        String[] keys = { "username", "name", "display_name", "displayName", "nickname", "screen_name" };
+        for (String key : keys) {
+            Object val = userData.get(key);
+            if (val != null) {
+                String s = val.toString().trim();
+                if (!s.isEmpty()) return s;
+            }
+        }
+        return null;
+    }
+
     @PostConstruct
     public void init() {
         // Warn if token is not set (should be in secrets.properties)
@@ -174,10 +191,15 @@ public class AuthService {
                 if (idObj == null) {
                     return new AuthResponse(false, "Authentication failed: No user information returned", null);
                 }
-                
+
                 String userId = idObj.toString();
-                UserInfo userInfo = new UserInfo(userId, userData);
-                logger.debug("Authentication successful for user ID: {}", userId);
+                String displayName = extractDisplayName(userData);
+                if (displayName != null) {
+                    logger.debug("Authentication successful for user ID: {}, displayName: {}", userId, displayName);
+                } else {
+                    logger.debug("Authentication successful for user ID: {} (no display name in response)", userId);
+                }
+                UserInfo userInfo = new UserInfo(userId, userData, displayName);
                 
                 // Cache successful authentication
                 AuthResponse successResponse = new AuthResponse(true, "Authentication successful", userInfo);

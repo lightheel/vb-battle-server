@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restservice.security.NacatechAuthenticationToken;
+import com.example.restservice.UserInfo;
 
 import java.security.SecureRandom;
 
@@ -175,10 +176,10 @@ public class BattleController {
         return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
 
-    private String getAuthenticatedUserId() {
+    private UserInfo getAuthenticatedUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof NacatechAuthenticationToken nacatechAuth) {
-            return nacatechAuth.getUserInfo().userId();
+            return nacatechAuth.getUserInfo();
         }
         return null;
     }
@@ -202,12 +203,12 @@ public class BattleController {
 
         boolean playerWon = winner.getCharaId().equals(tempPlayer.getCharaId());
         if (playerWon) {
-            String username = getAuthenticatedUserId();
-            logger.info("Roster add: player won with {}, stage={}, authenticatedUserId={}",
-                winner.getName(), winner.getStage(), username != null ? username : "(null)");
+            UserInfo userInfo = getAuthenticatedUserInfo();
+            String userId = userInfo != null ? userInfo.userId() : "";
+            String displayName = (userInfo != null && userInfo.displayName() != null) ? userInfo.displayName() : userId;
+            logger.info("Roster add: player won with {}, stage={}, user={}", winner.getName(), winner.getStage(), displayName);
             Character winnerCopy = new Character(winner);
-            if (username != null) winnerCopy.setOwnerUsername(username);
-            RestServiceApplication.addWinnerToRoster(winnerCopy, username != null ? username : "");
+            RestServiceApplication.addWinnerToRoster(winnerCopy, userId, displayName);
         } else {
             logger.info("Battle: opponent won ({}). Not adding to roster.", winner.getName());
         }

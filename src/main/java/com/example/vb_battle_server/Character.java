@@ -1,5 +1,7 @@
 package com.example.vb_battle_server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Character {
     public String name;
     public String namekey;
@@ -10,8 +12,10 @@ public class Character {
     public int currentHp;
     public float baseBp;
     public float baseAp;
-    /** Set for player-added roster entries; null for catalog / initial roster. */
+    /** Set for player-added roster entries; null for catalog / initial roster. Display label (e.g. "Zach"). */
     private String ownerUsername;
+    /** Stable user id for roster logic (max per user, dedup); not for display. */
+    private String ownerUserId;
 
     public Character(String name, String namekey, String charaId, int stage, int attribute, int baseHp, int currentHp, float baseBp, float baseAp) {
         this.name = name;
@@ -24,9 +28,10 @@ public class Character {
         this.baseBp = baseBp;
         this.baseAp = baseAp;
         this.ownerUsername = null;
+        this.ownerUserId = null;
     }
 
-    /** Copy constructor; copies all fields including ownerUsername. */
+    /** Copy constructor; copies all fields including ownerUsername and ownerUserId. */
     public Character(Character other) {
         this.name = other.name;
         this.namekey = other.namekey;
@@ -38,6 +43,7 @@ public class Character {
         this.baseBp = other.baseBp;
         this.baseAp = other.baseAp;
         this.ownerUsername = other.ownerUsername;
+        this.ownerUserId = other.ownerUserId;
     }
 
     // Getter methods
@@ -51,6 +57,8 @@ public class Character {
     public float getBaseBp() { return baseBp; }
     public float getBaseAp() { return baseAp; }
     public String getOwnerUsername() { return ownerUsername; }
+    @JsonIgnore
+    public String getOwnerUserId() { return ownerUserId; }
 
     /** Display name for client: "Username's DigimonName" when owner is set, else just name. */
     public String getDisplayName() {
@@ -71,4 +79,5 @@ public class Character {
     public void setBaseBp(float baseBp) { this.baseBp = baseBp; }
     public void setBaseAp(float baseAp) { this.baseAp = baseAp; }
     public void setOwnerUsername(String ownerUsername) { this.ownerUsername = ownerUsername; }
+    public void setOwnerUserId(String ownerUserId) { this.ownerUserId = ownerUserId; }
 } 
