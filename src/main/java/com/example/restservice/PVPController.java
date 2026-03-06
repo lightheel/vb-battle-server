@@ -85,11 +85,72 @@ public class PVPController {
         float totalBp = digi1.getBaseBp() + digi2.getBaseBp();
         if (totalBp <= 0) {
             // If both have 0 BP, default to 50% hit rate
+            logger.debug("Hitrate check: Both have 0 BP, defaulting to 50%");
             return rand.nextInt(100) < 50;
         }
-        float hitrate = (digi1.getBaseBp() / totalBp * 100);
-        int rand_int = rand.nextInt(99);
-        return rand_int < hitrate;
+        
+        // Calculate base hitrate: your DP / (your DP + enemy DP) * 100
+        float baseHitrate = (digi1.getBaseBp() / totalBp * 100);
+        
+        // Apply attribute modifier
+        int attributeModifier = getAttributeModifier(digi1.getAttribute(), digi2.getAttribute());
+        float hitrate = baseHitrate + attributeModifier;
+        
+        // Clamp hitrate between 0 and 100
+        if (hitrate < 0) hitrate = 0;
+        if (hitrate > 100) hitrate = 100;
+        
+        int rand_int = rand.nextInt(100); // Fixed: was rand.nextInt(99), now allows 100% hitrate
+        boolean hit = rand_int < hitrate;
+        
+        // Debug logging
+        logger.debug("Hitrate check: {} (attr={}) vs {} (attr={}) | BaseBP: {}/{} | BaseHitrate: {}% | AttrMod: {} | FinalHitrate: {}% | Roll: {} | Result: {}",
+            digi1.getName(), digi1.getAttribute(),
+            digi2.getName(), digi2.getAttribute(),
+            digi1.getBaseBp(), digi2.getBaseBp(),
+            String.format("%.2f", baseHitrate), attributeModifier, String.format("%.2f", hitrate), rand_int, hit ? "HIT" : "MISS");
+        
+        return hit;
+    }
+
+    /**
+     * Get attribute modifier based on attribute matchup chart.
+     * Attributes: 1=Vaccine, 2=Virus, 3=Data, 4=Free
+     * Returns modifier to add to hitrate (+5, 0, or -5)
+     */
+    private int getAttributeModifier(int yourAttribute, int enemyAttribute) {
+        // Free attribute is always neutral
+        if (yourAttribute == 4 || enemyAttribute == 4) {
+            return 0;
+        }
+        
+        // Same attribute = no modifier
+        if (yourAttribute == enemyAttribute) {
+            return 0;
+        }
+        
+        // Vaccine (1) vs Virus (2): +5
+        // Vaccine (1) vs Data (3): -5
+        if (yourAttribute == 1) {
+            if (enemyAttribute == 2) return 5;  // Vaccine beats Virus
+            if (enemyAttribute == 3) return -5;  // Vaccine loses to Data
+        }
+        
+        // Virus (2) vs Vaccine (1): -5
+        // Virus (2) vs Data (3): +5
+        if (yourAttribute == 2) {
+            if (enemyAttribute == 1) return -5; // Virus loses to Vaccine
+            if (enemyAttribute == 3) return 5;   // Virus beats Data
+        }
+        
+        // Data (3) vs Vaccine (1): +5
+        // Data (3) vs Virus (2): -5
+        if (yourAttribute == 3) {
+            if (enemyAttribute == 1) return 5;  // Data beats Vaccine
+            if (enemyAttribute == 2) return -5; // Data loses to Virus
+        }
+        
+        return 0; // Default (shouldn't reach here)
     }
 
     //Combat instance class
@@ -99,11 +160,13 @@ public class PVPController {
         String playerID;
         Character playerCharacter;
         Character opponentCharacter;
+        int playerMaxHp; // Player's max HP including vitality bonus
 
-        public pvpInstance(String inputPlayerID, Character inputPlayerCharacter, Character inputOpponentCharacter) {
+        public pvpInstance(String inputPlayerID, Character inputPlayerCharacter, Character inputOpponentCharacter, int inputPlayerMaxHp) {
             playerID = inputPlayerID;
             playerCharacter = inputPlayerCharacter;
             opponentCharacter = inputOpponentCharacter;
+            playerMaxHp = inputPlayerMaxHp;
         }
 
         boolean isCombatComplete() {
@@ -132,16 +195,21 @@ public class PVPController {
             combatRoundWrapper tempRoundWrapper = new combatRoundWrapper();
 
             int attackDamage = 0;
-            int randTotal = rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15) + rand.nextInt(15);
+            
+            // Reduced variability: random multiplier between 0.9 and 1.1 (10% variance)
+            float randomMultiplier = 0.9f + (rand.nextFloat() * 0.2f); // 0.9 to 1.1
 
             if (checkAttackHit(playerCharacter, opponentCharacter)) {
                 // Player hits opponent - use critBar for crit calculation
+                float baseDamage = playerCharacter.getBaseAp() * randomMultiplier;
+                
                 if (critBar == 100.0f) {
-                    attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal) + randTotal;
+                    // Critical hit: 1.3x damage
+                    attackDamage = (int)(baseDamage * 1.3f);
                     tempRoundWrapper.playerCombatDamage = attackDamage;
                 }
                 else {
-                    attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal);
+                    attackDamage = (int)baseDamage;
                     tempRoundWrapper.playerCombatDamage = attackDamage;
                 }
                 //deal damage to enemy
@@ -152,7 +220,8 @@ public class PVPController {
             }
             else {
                 // Opponent hits player - no critBar (opponent doesn't use player's critBar)
-                attackDamage = ((((int)playerCharacter.getBaseAp() / 4) / 10 ) * randTotal);
+                float baseDamage = opponentCharacter.getBaseAp() * randomMultiplier;
+                attackDamage = (int)baseDamage;
                 tempRoundWrapper.opponentCombatDamage = attackDamage;
                 //deal damage to player
                 playerCharacter.setCurrentHp(playerCharacter.getCurrentHp() - attackDamage);
@@ -265,7 +334,7 @@ public class PVPController {
         return new Character("", "", "", 0, 0, 0, 0, 0.0f, 0.0f);
     }
 
-    boolean checkExistingCombat(String playerID, Character playerCharacter, Character opponentCharacter) {
+    boolean checkExistingCombat(String playerID, Character playerCharacter, Character opponentCharacter, int playerMaxHp) {
         // Validate playerID
         if (playerID == null || playerID.isEmpty() || playerID.length() > 200) {
             logger.warn("Invalid playerID provided: {}", playerID);
@@ -274,7 +343,7 @@ public class PVPController {
         
         // Adds combat if player ID isn't already in a match.
         pvpInstance existing = combatDictionary.putIfAbsent(playerID, 
-            new pvpInstance(playerID, playerCharacter, opponentCharacter));
+            new pvpInstance(playerID, playerCharacter, opponentCharacter, playerMaxHp));
         
         if (existing == null) {
             // New combat session created
@@ -296,6 +365,48 @@ public class PVPController {
         }
         return null;
     }
+
+    /**
+     * Calculate HP bonus based on vital points and stage.
+     * Max vital: Rookie=2500, Champion=5000, Ultimate=7500, Mega=9999
+     * HP bonus tiers: 0-25%=0%, 25-50%=15%, 50-75%=30%, 75-100%=45%
+     * Returns the HP bonus multiplier (e.g., 1.15 for 15% bonus)
+     */
+    private float calculateHpBonusMultiplier(int stage, int vitalPoints) {
+        int maxVitality;
+        switch (stage) {
+            case 0: // Rookie
+                maxVitality = 2500;
+                break;
+            case 1: // Champion
+                maxVitality = 5000;
+                break;
+            case 2: // Ultimate
+                maxVitality = 7500;
+                break;
+            case 3: // Mega
+                maxVitality = 9999;
+                break;
+            default:
+                maxVitality = 2500; // Default to Rookie
+        }
+        
+        if (maxVitality <= 0) {
+            return 1.0f; // No bonus if max vitality is invalid
+        }
+        
+        float vitalityPercentage = (float) vitalPoints / maxVitality * 100;
+        
+        if (vitalityPercentage < 25.0f) {
+            return 1.0f; // 0% bonus
+        } else if (vitalityPercentage < 50.0f) {
+            return 1.15f; // 15% bonus
+        } else if (vitalityPercentage < 75.0f) {
+            return 1.30f; // 30% bonus
+        } else {
+            return 1.45f; // 45% bonus
+        }
+    }
     @GetMapping("api/pvp")
     public PVP pvp(
             @RequestParam(value = "apiStage") @Min(0) @Max(2) int apiStage,
@@ -305,7 +416,8 @@ public class PVPController {
             @RequestParam(value = "critBar") @Min(0) @Max(100) float critBar,
             @RequestParam(value = "opponentDigi") @NotBlank String opponentDigi,
             @RequestParam(value = "opponentStage") @Min(0) @Max(3) int opponentStage,
-            @RequestParam(value = "action", required = false) String action) {
+            @RequestParam(value = "action", required = false) String action,
+            @RequestParam(value = "vitalPoints", required = false) Integer vitalPoints) {
 
         // Optional: Verify authenticated user matches playerID if token was provided
         // This allows the endpoint to work with just playerID (original behavior)
@@ -361,7 +473,7 @@ public class PVPController {
                             // User wants to resume existing match
                             int playerHP = existingMatch.playerCharacter.getCurrentHp();
                             int opponentHP = existingMatch.opponentCharacter.getCurrentHp();
-                            int playerMaxHP = existingMatch.playerCharacter.getBaseHp();
+                            int playerMaxHP = existingMatch.playerMaxHp; // Use stored max HP with vitality bonus
                             int opponentMaxHP = existingMatch.opponentCharacter.getBaseHp();
                             logger.debug("Player {} resuming existing match at round {} - Player HP: {}, Opponent HP: {}", 
                                 playerID, existingMatch.combatRound, playerHP, opponentHP);
@@ -393,7 +505,7 @@ public class PVPController {
                                 existingMatch.combatRound, 
                                 existingMatch.playerCharacter.getCurrentHp(), 
                                 existingMatch.opponentCharacter.getCurrentHp(),
-                                existingMatch.playerCharacter.getBaseHp(),
+                                existingMatch.playerMaxHp, // Use stored max HP with vitality bonus
                                 existingMatch.opponentCharacter.getBaseHp(),
                                 false, -1, -1, characterInfo);
                         }
@@ -406,11 +518,23 @@ public class PVPController {
                 tempPlayer.setCurrentHp(tempPlayer.getBaseHp());
                 tempOpponent.setCurrentHp(tempOpponent.getBaseHp());
                 
-                if (checkExistingCombat(playerID, tempPlayer, tempOpponent)) {
+                // Calculate player's max HP with vitality bonus
+                int playerBaseHp = tempPlayer.getBaseHp();
+                int playerMaxHp = playerBaseHp;
+                if (vitalPoints != null && vitalPoints >= 0) {
+                    float hpBonusMultiplier = calculateHpBonusMultiplier(playerStage, vitalPoints);
+                    playerMaxHp = (int)(playerBaseHp * hpBonusMultiplier);
+                    // Set player's current HP to the bonus HP
+                    tempPlayer.setCurrentHp(playerMaxHp);
+                    logger.debug("Player vitality bonus applied: {} vital points (stage {}) = {:.1f}% bonus, HP: {} -> {}",
+                        vitalPoints, playerStage, (hpBonusMultiplier - 1.0f) * 100, playerBaseHp, playerMaxHp);
+                }
+                
+                if (checkExistingCombat(playerID, tempPlayer, tempOpponent, playerMaxHp)) {
                     logger.debug("Match ID: {} - match setup for player ID: {} - player char: {} - opponent char: {}", 
                         msgID, playerID, tempPlayer.getName(), tempOpponent.getName());
                     return new PVP("Match setup.", 0,-1, tempPlayer.getCurrentHp(), tempOpponent.getCurrentHp(), 
-                        tempPlayer.getBaseHp(), tempOpponent.getBaseHp(), false, -1, -1,"");
+                        playerMaxHp, tempOpponent.getBaseHp(), false, -1, -1,"");
                 }
                 else {
                     // This shouldn't happen, but handle edge case
@@ -426,7 +550,7 @@ public class PVPController {
                         logger.debug("Match Number: {} Match over. Winner is: {}", msgID, combatInstance.getWinner().getName());
                         return new PVP("Winner reported. Match over.", 2, combatInstance.combatRound, 
                             combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(),
-                            combatInstance.playerCharacter.getBaseHp(), combatInstance.opponentCharacter.getBaseHp(),
+                            combatInstance.playerMaxHp, combatInstance.opponentCharacter.getBaseHp(),
                             false, -1, -1, combatInstance.getWinner().getName());
                     }
                     else {
@@ -435,7 +559,7 @@ public class PVPController {
                             msgID, tempCombatRound.playerAttackHit, tempCombatRound.playerCombatDamage, tempCombatRound.opponentCombatDamage);
                         return new PVP("Match processing.", 1, combatInstance.combatRound, 
                             combatInstance.playerCharacter.getCurrentHp(), combatInstance.opponentCharacter.getCurrentHp(),
-                            combatInstance.playerCharacter.getBaseHp(), combatInstance.opponentCharacter.getBaseHp(),
+                            combatInstance.playerMaxHp, combatInstance.opponentCharacter.getBaseHp(),
                             tempCombatRound.playerAttackHit, tempCombatRound.playerCombatDamage, tempCombatRound.opponentCombatDamage, "");
                     }
                 }
@@ -452,7 +576,7 @@ public class PVPController {
                         int finalRoundCount = finalInstance.combatRound;
                         int finalPlayerHP = finalInstance.playerCharacter.getCurrentHp();
                         int finalOpponentHP = finalInstance.opponentCharacter.getCurrentHp();
-                        int finalPlayerMaxHP = finalInstance.playerCharacter.getBaseHp();
+                        int finalPlayerMaxHP = finalInstance.playerMaxHp; // Use stored max HP with vitality bonus
                         int finalOpponentMaxHP = finalInstance.opponentCharacter.getBaseHp();
                         finalInstance.resetCombat();
                         combatDictionary.remove(playerID);
