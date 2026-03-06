@@ -29,6 +29,16 @@ public class SecurityRequestFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String remoteAddr = request.getRemoteAddr();
         
+        // Reject all multipart requests early (our API doesn't use multipart/form-data)
+        // This prevents MultipartException from reaching DispatcherServlet
+        // Bots/scanners often send malformed multipart requests
+        if (isMultipartRequest(request)) {
+            logger.debug("Rejecting multipart request - Method: {}, Path: {}, RemoteAddr: {}", 
+                method, path, remoteAddr);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        
         // Log suspicious requests
         if (isSuspiciousRequest(request)) {
             logger.warn("Suspicious request detected - Method: {}, Path: {}, RemoteAddr: {}, User-Agent: {}", 
@@ -36,6 +46,24 @@ public class SecurityRequestFilter extends OncePerRequestFilter {
         }
         
         filterChain.doFilter(request, response);
+    }
+    
+    /**
+     * Check if request is a multipart request
+     * Our API endpoints don't use multipart/form-data, so we reject ALL multipart requests
+     * This prevents Spring from trying to parse multipart streams (which often fail with bots/scanners)
+     * and eliminates MultipartException stack traces in logs
+     */
+    private boolean isMultipartRequest(HttpServletRequest request) {
+        String contentType = request.getContentType();
+        
+        // Block all requests with multipart Content-Type (regardless of HTTP method)
+        // Our API only uses JSON bodies and query parameters
+        if (contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+            return true;
+        }
+        
+        return false;
     }
     
     /**
