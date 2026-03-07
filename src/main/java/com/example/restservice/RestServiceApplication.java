@@ -1,5 +1,6 @@
 package com.example.restservice;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -8,15 +9,24 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.example.vb_battle_server.Character;
 
 @SpringBootApplication
+@EnableScheduling
 @PropertySource(value = {"file:./secrets.properties", "file:./config/secrets.properties"}, ignoreResourceNotFound = true)
 public class RestServiceApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(RestServiceApplication.class);
+    private static final Path ROSTER_FILE_PATH = Path.of("data", "roster.json");
+    private static final int MAX_ROSTER_BACKUPS = 5;
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static final int MAX_ROSTER_PER_STAGE = 100;
     public static final int MAX_PER_USER_PER_STAGE = 3;
@@ -53,7 +63,12 @@ public class RestServiceApplication {
             addAllCharactersFromClass(VBChampionStats.class, VBChampionStats.championArray);
             addAllCharactersFromClass(VBUltimateStats.class, VBUltimateStats.ultimateArray);
             addAllCharactersFromClass(VBMegaStats.class, VBMegaStats.megaArray);
-            initRosters();
+            if (!loadRostersFromFile()) {
+                initRosters();
+                logger.info("Roster file not found or empty; initialized with hard-coded rosters.");
+            } else {
+                logger.info("Roster loaded from {}", ROSTER_FILE_PATH);
+            }
             System.out.println("Loaded " + VBRookieStats.rookieArray.size() + " Rookie characters");
             System.out.println("Loaded " + VBChampionStats.championArray.size() + " Champion characters");
             System.out.println("Loaded " + VBUltimateStats.ultimateArray.size() + " Ultimate characters");
@@ -160,7 +175,109 @@ public class RestServiceApplication {
         }
         return null;
     }
-    
+
+    /**
+     * Loads rosters from the roster file. Tries main file first, then backups (roster.json.1, .2, ...) if empty or invalid.
+     * Returns true if any file was loaded successfully. Call only after catalog (stats arrays) are populated.
+     */
+    public static boolean loadRostersFromFile() {
+        Path main = ROSTER_FILE_PATH;
+        if (tryLoadRosterFrom(main)) return true;
+        for (int i = 1; i <= MAX_ROSTER_BACKUPS; i++) {
+            Path backup = Path.of(main.getParent().toString(), main.getFileName() + "." + i);
+            if (tryLoadRosterFrom(backup)) {
+                logger.info("Loaded roster from backup {}", backup.getFileName());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean tryLoadRosterFrom(Path path) {
+        if (!Files.isRegularFile(path)) return false;
+        try {
+            String json = Files.readString(path);
+            if (json == null || json.isBlank()) return false;
+            RosterFileDto dto = OBJECT_MAPPER.readValue(json, RosterFileDto.class);
+            if (dto == null) return false;
+            loadStageFromDto(rookieRoster, dto.rookie() != null ? dto.rookie() : List.of(), VBRookieStats.rookieArray);
+            loadStageFromDto(championRoster, dto.champion() != null ? dto.champion() : List.of(), VBChampionStats.championArray);
+            loadStageFromDto(ultimateRoster, dto.ultimate() != null ? dto.ultimate() : List.of(), VBUltimateStats.ultimateArray);
+            loadStageFromDto(megaRoster, dto.mega() != null ? dto.mega() : List.of(), VBMegaStats.megaArray);
+            return true;
+        } catch (Exception e) {
+            logger.debug("Could not load roster from {}: {}", path, e.getMessage());
+            return false;
+        }
+    }
+
+    private static void loadStageFromDto(ArrayList<RosterEntry> roster, List<RosterEntryDto> dtos, ArrayList<Character> catalog) {
+        synchronized (roster) {
+            roster.clear();
+            for (RosterEntryDto dto : dtos) {
+                if (dto == null || dto.charaId() == null) continue;
+                Character c = findCharacterByCharaId(catalog, dto.charaId());
+                if (c == null) continue;
+                if (dto.ownerUserId() != null && !dto.ownerUserId().isEmpty()) {
+                    Character copy = new Character(c);
+                    copy.setOwnerUserId(dto.ownerUserId());
+                    copy.setOwnerUsername(dto.ownerUsername() != null ? dto.ownerUsername() : dto.ownerUserId());
+                    roster.add(new RosterEntry(copy, dto.addedAt()));
+                } else {
+                    roster.add(new RosterEntry(c, dto.addedAt()));
+                }
+            }
+        }
+    }
+
+    /**
+     * Saves current rosters to the roster file. Rotates backups (roster.json.1 .. .5) so we keep multiple copies.
+     * Creates parent directory if needed.
+     */
+    public static void saveRostersToFile() {
+        Path main = ROSTER_FILE_PATH;
+        Path parent = main.getParent();
+        try {
+            if (parent != null) Files.createDirectories(parent);
+            // Rotate backups: delete .5, then .4->.5, .3->.4, .2->.3, .1->.2, main->.1
+            if (Files.isRegularFile(main)) {
+                for (int i = MAX_ROSTER_BACKUPS; i >= 1; i--) {
+                    Path p = parent.resolve(main.getFileName() + "." + i);
+                    if (i == MAX_ROSTER_BACKUPS) {
+                        Files.deleteIfExists(p);
+                    } else {
+                        Path prev = parent.resolve(main.getFileName() + "." + (i - 1));
+                        if (Files.exists(prev)) Files.move(prev, p, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                    }
+                }
+                Path firstBackup = parent.resolve(main.getFileName() + ".1");
+                Files.copy(main, firstBackup, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            }
+            List<RosterEntryDto> rookie = toDtoList(rookieRoster);
+            List<RosterEntryDto> champion = toDtoList(championRoster);
+            List<RosterEntryDto> ultimate = toDtoList(ultimateRoster);
+            List<RosterEntryDto> mega = toDtoList(megaRoster);
+            RosterFileDto dto = new RosterFileDto(rookie, champion, ultimate, mega);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(main.toFile(), dto);
+            logger.debug("Roster saved to {} ({} backups kept)", main, MAX_ROSTER_BACKUPS);
+        } catch (Exception e) {
+            logger.warn("Failed to save roster to {}: {}", main, e.getMessage());
+        }
+    }
+
+    private static List<RosterEntryDto> toDtoList(ArrayList<RosterEntry> roster) {
+        synchronized (roster) {
+            return roster.stream()
+                .map(e -> new RosterEntryDto(
+                    e.character().getCharaId(),
+                    e.addedAt(),
+                    e.character().getOwnerUserId(),
+                    e.character().getOwnerUsername()
+                ))
+                .toList();
+        }
+    }
+
     // Helper method to add all Character fields from a stats class to an array
     private static void addAllCharactersFromClass(Class<?> statsClass, ArrayList<Character> targetArray) {
         try {
